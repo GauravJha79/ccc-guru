@@ -1,8 +1,8 @@
-# CCC Prep Public Website — SRS
+# CCC Guru Public Website — SRS
 
 ## 1. Project Overview
 
-Build a production-ready public website for CCC Prep, a NIELIT CCC preparation platform.
+Build a production-ready public website for CCC Guru, a NIELIT CCC preparation platform.
 
 The website will act as the public SEO and learning platform connected to the same Supabase backend used by the mobile app.
 
@@ -116,7 +116,7 @@ Avoid:
 Desktop navbar:
 
 Logo:
-CCC Prep
+CCC Guru
 
 Navigation:
 

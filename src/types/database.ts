@@ -1,5 +1,5 @@
 // ============================================================
-// CCC Prep — Database Types (matches Supabase schema exactly)
+// CCC Guru — Database Types (matches Supabase schema exactly)
 // ============================================================
 
 export interface TestCategory {
