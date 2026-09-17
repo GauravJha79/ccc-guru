@@ -54,7 +54,11 @@ export function truncate(text: string, length: number): string {
 
 // Build absolute site URL
 export function siteUrl(path: string): string {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in').replace(/\/+$/, '');
+  const base = (
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'
+  )
+    .replace(/cccprep\.in/gi, 'cccguru.in')
+    .replace(/\/+$/, '');
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   return `${base}${cleanPath}`;
 }

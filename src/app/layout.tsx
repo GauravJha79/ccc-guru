@@ -11,7 +11,11 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in';
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'
+)
+  .replace(/cccprep\.in/gi, 'cccguru.in')
+  .replace(/\/+$/, '');
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
