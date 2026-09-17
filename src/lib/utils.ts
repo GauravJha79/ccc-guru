@@ -54,8 +54,9 @@ export function truncate(text: string, length: number): string {
 
 // Build absolute site URL
 export function siteUrl(path: string): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in';
-  return `${base}${path}`;
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in').replace(/\/+$/, '');
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  return `${base}${cleanPath}`;
 }
 
 // Simple slug from title (for display only, not used for DB slugs)
