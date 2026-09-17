@@ -5,14 +5,21 @@ import {
   FlaskConical, Clock, BarChart3, Star, Users, ArrowRight,
   CheckCircle, Lock, ChevronRight
 } from 'lucide-react';
-import { getTestSeriesById, getTestSeriesItems } from '@/lib/data/tests';
+import { getTestSeriesById, getTestSeriesItems, getAllTestSeriesIds } from '@/lib/data/tests';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { formatPrice, getDifficultyColor } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 interface TestSeriesPageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  const ids = await getAllTestSeriesIds();
+  return ids.map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: TestSeriesPageProps): Promise<Metadata> {
@@ -20,15 +27,26 @@ export async function generateMetadata({ params }: TestSeriesPageProps): Promise
   const series = await getTestSeriesById(id);
   if (!series) return { title: 'Test Series Not Found' };
 
+  const title = `${series.title} — Free CCC Online Test`;
+  const description =
+    series.description ??
+    `Practice ${series.title} CCC online test with ${series.total_sets_available} bilingual mock test sets. Free NIELIT CCC online exam practice with instant solutions.`;
+
   return {
-    title: series.title,
-    description:
-      series.description ??
-      `Practice ${series.title} with ${series.total_sets_available} test sets. Free NIELIT CCC exam preparation.`,
+    title,
+    description,
+    keywords: [
+      series.title,
+      'CCC online test',
+      'CCC mock test',
+      'NIELIT CCC online test',
+      'CCC online practice test',
+      'CCC exam test series',
+    ],
     alternates: { canonical: `/test-series/${id}` },
     openGraph: {
-      title: series.title,
-      description: series.description ?? `${series.total_sets_available} test sets available.`,
+      title,
+      description,
       url: `/test-series/${id}`,
     },
   };
@@ -43,8 +61,29 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
 
   if (!series) notFound();
 
+  const testSeriesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: series.title,
+    description: series.description ?? `Practice ${series.title} for NIELIT CCC exam.`,
+    learningResourceType: 'Practice Test / Quiz',
+    educationalLevel: 'NIELIT CCC Certification',
+    inLanguage: ['en', 'hi'],
+    isAccessibleForFree: !series.is_paid,
+    provider: {
+      '@type': 'Organization',
+      name: 'CCC Guru',
+      url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in',
+    },
+    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/test-series/${id}`,
+  };
+
   return (
     <div className="container-page py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(testSeriesJsonLd) }}
+      />
       <Breadcrumbs
         items={[
           { label: 'Tests', href: '/tests' },

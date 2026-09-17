@@ -5,6 +5,8 @@ import { getChapters } from '@/lib/data/chapters';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'CCC Chapters — Complete CCC Syllabus Chapters',
   description:

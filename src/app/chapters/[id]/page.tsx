@@ -7,6 +7,8 @@ import { getTestSeries } from '@/lib/data/tests';
 import { getNotes } from '@/lib/data/notes';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
+export const revalidate = 3600;
+
 interface ChapterPageProps {
   params: Promise<{ id: string }>;
 }
@@ -41,8 +43,29 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
     getNotes({ limit: 3 }),
   ]);
 
+  const chapterJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LearningResource',
+    name: chapter.title,
+    description: chapter.description ?? `Study ${chapter.title} for NIELIT CCC exam.`,
+    learningResourceType: 'Chapter Study Guide',
+    educationalLevel: 'NIELIT CCC Certification',
+    inLanguage: ['en', 'hi'],
+    isAccessibleForFree: true,
+    publisher: {
+      '@type': 'Organization',
+      name: 'CCC Guru',
+      url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in',
+    },
+    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/chapters/${id}`,
+  };
+
   return (
     <div className="container-page py-8 max-w-4xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(chapterJsonLd) }}
+      />
       <Breadcrumbs
         items={[
           { label: 'Chapters', href: '/chapters' },

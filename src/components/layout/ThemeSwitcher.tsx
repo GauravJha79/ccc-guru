@@ -28,8 +28,7 @@ export function ThemeSwitcher() {
 
   return (
     <div
-      className="flex items-center gap-0.5 p-1 rounded-lg"
-      style={{ backgroundColor: 'rgb(var(--color-border-subtle))' }}
+      className="flex items-center gap-0.5 p-1 rounded-lg bg-border-subtle"
       role="radiogroup"
       aria-label="Theme"
     >

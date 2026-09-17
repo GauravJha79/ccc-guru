@@ -21,8 +21,8 @@ const syllabusJsonLd = {
   headline: "CCC Syllabus 2024-25 — Complete NIELIT CCC Exam Syllabus",
   description:
     "Complete NIELIT CCC exam syllabus with all chapters and topics.",
-  author: { "@type": "Organization", name: "CCC Prep" },
-  publisher: { "@type": "Organization", name: "CCC Prep" },
+  author: { "@type": "Organization", name: "CCC Guru" },
+  publisher: { "@type": "Organization", name: "CCC Guru" },
   url: `${process.env.NEXT_PUBLIC_SITE_URL}/ccc-syllabus`,
 };
 

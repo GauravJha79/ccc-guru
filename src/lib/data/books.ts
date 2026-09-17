@@ -1,5 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
-import { createBuildClient } from "@/lib/supabase/build";
+import { getPublicClient } from "@/lib/supabase/public";
 import type {
   BookCategory,
   Book,
@@ -9,7 +8,7 @@ import type {
 } from "@/types/database";
 
 export async function getBookCategories(): Promise<BookCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("book_categories")
     .select("*")
@@ -29,7 +28,7 @@ export async function getBooks(options?: {
   limit?: number;
   search?: string;
 }): Promise<BookWithCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   let query = supabase
     .from("books")
     .select("*, book_categories(id, title, hindi_title)")
@@ -58,7 +57,7 @@ export async function getBooks(options?: {
 }
 
 export async function getBookById(id: string): Promise<BookWithLinks | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("books")
     .select("*, book_links(*)")
@@ -80,8 +79,7 @@ export async function getBookById(id: string): Promise<BookWithLinks | null> {
 }
 
 export async function getAllBookIds(): Promise<string[]> {
-  // Use build client (no cookies) — safe for generateStaticParams
-  const supabase = createBuildClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("books")
     .select("id")

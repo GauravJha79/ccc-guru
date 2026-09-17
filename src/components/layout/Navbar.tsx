@@ -23,7 +23,16 @@ export function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 10);
+    let ticking = false;
+    const handler = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
     window.addEventListener("scroll", handler, { passive: true });
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -57,13 +66,13 @@ export function Navbar() {
             <Link
               href="/"
               className="flex items-center gap-2 shrink-0"
-              aria-label="CCC Prep Home"
+              aria-label="CCC Guru Home"
             >
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#6610f2] to-[#1a8fe3] flex items-center justify-center shadow-sm">
                 <BookOpen className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold text-text-primary">
-                CCC <span className="gradient-text">Prep</span>
+                CCC <span className="gradient-text">Guru</span>
               </span>
             </Link>
 

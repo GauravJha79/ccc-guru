@@ -6,7 +6,7 @@ import { BookOpen, Mail, ExternalLink } from "lucide-react";
 
 const FOOTER_LINKS = {
   Platform: [
-    { href: "/tests", label: "Mock Tests" },
+    { href: "/tests", label: "CCC Online Test" },
     { href: "/notes", label: "Study Notes" },
     { href: "/blogs", label: "Blogs" },
     { href: "/books", label: "Books" },
@@ -15,7 +15,7 @@ const FOOTER_LINKS = {
   "CCC Exam": [
     { href: "/ccc-syllabus", label: "CCC Syllabus" },
     { href: "/blogs", label: "Exam Tips" },
-    { href: "/tests", label: "Practice Tests" },
+    { href: "/tests", label: "Online Mock Tests" },
   ],
   Company: [
     { href: "/about", label: "About Us" },
@@ -47,7 +47,7 @@ export function Footer() {
                 <BookOpen className="w-4 h-4 text-white" />
               </div>
               <span className="text-lg font-bold text-text-primary">
-                CCC <span className="gradient-text">Prep</span>
+                CCC <span className="gradient-text">Guru</span>
               </span>
             </Link>
             <p className="text-sm text-text-muted leading-relaxed mb-4">
@@ -55,11 +55,11 @@ export function Footer() {
               mock tests, notes, and expert resources.
             </p>
             <a
-              href="mailto:hello@cccprep.in"
+              href="mailto:hello@cccguru.in"
               className="flex items-center gap-2 text-sm text-text-secondary hover:text-primary-600 transition-colors"
             >
               <Mail className="w-4 h-4" />
-              hello@cccprep.in
+              hello@cccguru.in
             </a>
           </div>
 
@@ -88,7 +88,7 @@ export function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-border pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-sm text-text-muted text-center sm:text-left">
-            © {year} CCC Prep. All rights reserved. Not affiliated with NIELIT.
+            © {year} CCC Guru. All rights reserved. Not affiliated with NIELIT.
           </p>
           <p className="text-xs text-text-muted">
             Built for NIELIT CCC candidates across India 🇮🇳

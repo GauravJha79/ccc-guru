@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'About CCC Prep',
-  description: 'Learn about CCC Prep — India\'s trusted free platform for NIELIT CCC exam preparation.',
+  title: 'About CCC Guru',
+  description: 'Learn about CCC Guru — India\'s trusted free platform for NIELIT CCC exam preparation.',
   alternates: { canonical: '/about' },
 };
 
@@ -12,10 +12,10 @@ export default function AboutPage() {
   return (
     <div className="container-page py-8 max-w-3xl">
       <Breadcrumbs items={[{ label: 'About' }]} />
-      <h1 className="text-3xl font-bold text-text-primary mb-4">About CCC Prep</h1>
+      <h1 className="text-3xl font-bold text-text-primary mb-4">About CCC Guru</h1>
       <div className="prose-ccc space-y-4">
         <p>
-          <strong>CCC Prep</strong> is a free, open-access educational platform dedicated to helping
+          <strong>CCC Guru</strong> is a free, open-access educational platform dedicated to helping
           students and professionals across India prepare for the{' '}
           <strong>NIELIT CCC (Course on Computer Concepts)</strong> examination.
         </p>

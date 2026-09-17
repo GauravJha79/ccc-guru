@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — CCC Prep',
-  description: 'Privacy policy for CCC Prep. Learn how we collect, use, and protect your information.',
+  title: 'Privacy Policy — CCC Guru',
+  description: 'Privacy policy for CCC Guru. Learn how we collect, use, and protect your information.',
   alternates: { canonical: '/privacy' },
 };
 
@@ -15,7 +15,7 @@ export default function PrivacyPage() {
       <p className="text-sm text-text-muted mb-8">Last updated: August 2025</p>
       <div className="prose-ccc space-y-5">
         <p>
-          CCC Prep ("we", "our", or "us") is committed to protecting your privacy. This policy
+          CCC Guru (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This policy
           explains how we collect and use information when you use our website and mobile application.
         </p>
         <h2>Information We Collect</h2>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
         <h2>Contact</h2>
         <p>
           If you have any questions about this privacy policy, please contact us at{' '}
-          <a href="mailto:hello@cccprep.in">hello@cccprep.in</a>.
+          <a href="mailto:hello@cccguru.in">hello@cccguru.in</a>.
         </p>
       </div>
     </div>

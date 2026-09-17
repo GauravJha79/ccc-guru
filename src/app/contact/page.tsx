@@ -4,8 +4,8 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { ContactForm } from '@/components/ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact CCC Prep',
-  description: "Get in touch with CCC Prep. We're here to help with your CCC exam preparation questions.",
+  title: 'Contact CCC Guru',
+  description: "Get in touch with CCC Guru. We're here to help with your CCC exam preparation questions.",
   alternates: { canonical: '/contact' },
 };
 
@@ -20,7 +20,7 @@ export default function ContactPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         <a
-          href="mailto:hello@cccprep.in"
+          href="mailto:hello@cccguru.in"
           className="card p-5 flex items-center gap-4 hover:border-primary-400 transition-all group"
         >
           <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950 flex items-center justify-center">
@@ -30,7 +30,7 @@ export default function ContactPage() {
             <p className="font-semibold text-text-primary group-hover:text-primary-600 transition-colors">
               Email Us
             </p>
-            <p className="text-sm text-text-muted">hello@cccprep.in</p>
+            <p className="text-sm text-text-muted">hello@cccguru.in</p>
           </div>
         </a>
         <div className="card p-5 flex items-center gap-4">

@@ -34,6 +34,8 @@ interface ExamInterfaceProps {
 type ExamState = "active" | "submitted";
 type Language = "en" | "hi" | "both";
 
+const STORAGE_KEY = "ccc-exam-language-preference";
+
 export function ExamInterface({
   item,
   questions,
@@ -55,6 +57,30 @@ export function ExamInterface({
   const [reviewMode, setReviewMode] = useState(false);
   const [showNavigator, setShowNavigator] = useState(true);
   const questionStartTime = useRef<number>(Date.now());
+
+  // Load saved language preference
+  useEffect(() => {
+    try {
+      const savedLang = localStorage.getItem(STORAGE_KEY) as Language | null;
+      if (
+        savedLang &&
+        (savedLang === "en" || savedLang === "hi" || savedLang === "both")
+      ) {
+        setLanguage(savedLang);
+      }
+    } catch {
+      // Ignore localStorage access errors
+    }
+  }, []);
+
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    try {
+      localStorage.setItem(STORAGE_KEY, lang);
+    } catch {
+      // Ignore localStorage access errors
+    }
+  };
 
   const currentQuestion = questions[currentIndex];
   const currentAnswer = answers[currentIndex];
@@ -161,6 +187,7 @@ export function ExamInterface({
         questions={questions}
         item={item}
         seriesId={seriesId}
+        initialLang={language === "hi" ? "hi" : "en"}
         onReattempt={() => {
           setAnswers(
             questions.map((q) => ({
@@ -234,12 +261,12 @@ export function ExamInterface({
           </div>
 
           {/* Language toggle */}
-          <div className="hidden sm:flex border border-border rounded-lg overflow-hidden text-xs font-medium">
+          <div className="flex border border-border rounded-lg overflow-hidden text-xs font-medium">
             {(["en", "hi", "both"] as Language[]).map((lang) => (
               <button
                 key={lang}
-                onClick={() => setLanguage(lang)}
-                className={`px-2.5 py-1.5 transition-colors ${
+                onClick={() => handleLanguageChange(lang)}
+                className={`px-1.5 sm:px-2.5 py-1 sm:py-1.5 transition-colors cursor-pointer ${
                   language === lang
                     ? "bg-primary-600 text-white"
                     : "text-text-muted hover:bg-border-subtle"
@@ -493,16 +520,18 @@ function ResultScreen({
   questions,
   item,
   seriesId,
+  initialLang = "en",
   onReattempt,
 }: {
   result: ExamResult;
   questions: Question[];
   item: TestSeriesItem;
   seriesId: string;
+  initialLang?: "en" | "hi";
   onReattempt: () => void;
 }) {
   const [showReview, setShowReview] = useState(false);
-  const [reviewLang, setReviewLang] = useState<"en" | "hi">("en");
+  const [reviewLang, setReviewLang] = useState<"en" | "hi">(initialLang);
 
   const passScore = item.total_marks * 0.5;
   const passed = result.score >= passScore;

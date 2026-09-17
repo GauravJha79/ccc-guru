@@ -10,8 +10,8 @@ import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
 
 export const metadata: Metadata = {
-  title: 'Search — CCC Prep',
-  description: 'Search tests, notes, blogs and books on CCC Prep.',
+  title: 'Search — CCC Guru',
+  description: 'Search tests, notes, blogs and books on CCC Guru.',
   robots: { index: false },
 };
 

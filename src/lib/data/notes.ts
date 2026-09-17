@@ -1,8 +1,8 @@
-import { createClient } from '@/lib/supabase/server';
+import { getPublicClient } from '@/lib/supabase/public';
 import type { NoteCategory, Note, NoteWithCategory } from '@/types/database';
 
 export async function getNoteCategories(): Promise<NoteCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('note_categories')
     .select('*')
@@ -22,7 +22,7 @@ export async function getNotes(options?: {
   limit?: number;
   search?: string;
 }): Promise<NoteWithCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   let query = supabase
     .from('notes')
     .select('*, note_categories(id, title, hindi_title)')
@@ -51,7 +51,7 @@ export async function getNotes(options?: {
 }
 
 export async function getNoteById(id: string): Promise<NoteWithCategory | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('notes')
     .select('*, note_categories(id, title, hindi_title)')
@@ -64,4 +64,18 @@ export async function getNoteById(id: string): Promise<NoteWithCategory | null> 
     return null;
   }
   return data as NoteWithCategory;
+}
+
+export async function getAllNoteIds(): Promise<string[]> {
+  const supabase = getPublicClient();
+  const { data, error } = await supabase
+    .from('notes')
+    .select('id')
+    .eq('is_active', true);
+
+  if (error) {
+    console.error('getAllNoteIds:', error.message);
+    return [];
+  }
+  return (data ?? []).map((n: { id: string }) => n.id);
 }

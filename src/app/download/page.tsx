@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { Smartphone, BookOpen, FlaskConical, Star } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Download CCC Prep App — Free for Android & iOS',
+  title: 'Download CCC Guru App — Free for Android & iOS',
   description:
-    'Download the CCC Prep mobile app for free. Practice CCC mock tests, read notes, and prepare for NIELIT CCC exam on the go.',
+    'Download the CCC Guru mobile app for free. Practice CCC mock tests, read notes, and prepare for NIELIT CCC exam on the go.',
   alternates: { canonical: '/download' },
 };
 
@@ -17,7 +17,7 @@ export default function DownloadPage() {
           <Smartphone className="w-10 h-10 text-white" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold text-text-primary mb-3">
-          Download CCC Prep App
+          Download CCC Guru App
         </h1>
         <p className="text-text-secondary mb-8 leading-relaxed">
           Study anytime, anywhere. Access all CCC mock tests, study notes, and expert content

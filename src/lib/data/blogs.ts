@@ -1,9 +1,8 @@
-import { createClient } from '@/lib/supabase/server';
-import { createBuildClient } from '@/lib/supabase/build';
+import { getPublicClient } from '@/lib/supabase/public';
 import type { BlogCategory, Blog, BlogWithCategory } from '@/types/database';
 
 export async function getBlogCategories(): Promise<BlogCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('blog_categories')
     .select('*')
@@ -24,7 +23,7 @@ export async function getBlogs(options?: {
   search?: string;
   excludeSlug?: string;
 }): Promise<BlogWithCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   let query = supabase
     .from('blogs')
     .select('*, blog_categories(id, title, hindi_title)')
@@ -56,7 +55,7 @@ export async function getBlogs(options?: {
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogWithCategory | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('blogs')
     .select('*, blog_categories(id, title, hindi_title)')
@@ -72,8 +71,7 @@ export async function getBlogBySlug(slug: string): Promise<BlogWithCategory | nu
 }
 
 export async function getAllBlogSlugs(): Promise<string[]> {
-  // Use build client (no cookies) — safe for generateStaticParams
-  const supabase = createBuildClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('blogs')
     .select('slug')

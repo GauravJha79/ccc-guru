@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/Badge";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { siteUrl } from "@/lib/utils";
 
+export const revalidate = 3600;
+
 interface BookPageProps {
   params: Promise<{ id: string }>;
 }

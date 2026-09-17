@@ -9,6 +9,8 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { CategoryFilter } from '@/components/ui/CategoryFilter';
 import { formatFileSize } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'CCC Study Notes — Free PDF Notes for NIELIT CCC',
   description:

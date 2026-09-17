@@ -3,13 +3,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { FileText, Download, ExternalLink, BookOpen, ArrowRight } from 'lucide-react';
-import { getNoteById, getNotes } from '@/lib/data/notes';
+import { getNoteById, getNotes, getAllNoteIds } from '@/lib/data/notes';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { formatFileSize } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 interface NotePageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateStaticParams() {
+  const ids = await getAllNoteIds();
+  return ids.map((id) => ({ id }));
 }
 
 export async function generateMetadata({ params }: NotePageProps): Promise<Metadata> {
@@ -44,8 +51,28 @@ export default async function NotePage({ params }: NotePageProps) {
     : [];
   const relatedNotes = related.filter((n) => n.id !== id).slice(0, 3);
 
+  const noteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'DigitalDocument',
+    name: note.title,
+    description: note.description ?? `Free CCC study notes PDF for NIELIT CCC exam.`,
+    encodingFormat: 'application/pdf',
+    inLanguage: ['en', 'hi'],
+    isAccessibleForFree: true,
+    publisher: {
+      '@type': 'Organization',
+      name: 'CCC Guru',
+      url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in',
+    },
+    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/notes/${id}`,
+  };
+
   return (
     <div className="container-page py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(noteJsonLd) }}
+      />
       <Breadcrumbs
         items={[
           { label: 'Notes', href: '/notes' },

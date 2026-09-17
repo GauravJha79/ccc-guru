@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { getPublicClient } from "@/lib/supabase/public";
 import type {
   TestCategory,
   TestSeries,
@@ -9,7 +9,7 @@ import type {
 } from "@/types/database";
 
 export async function getTestCategories(): Promise<TestCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_categories")
     .select("*")
@@ -28,7 +28,7 @@ export async function getTestSeries(options?: {
   featuredOnly?: boolean;
   limit?: number;
 }): Promise<TestSeriesWithCategory[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   let query = supabase
     .from("test_series")
     .select("*, test_categories(id, title)")
@@ -55,7 +55,7 @@ export async function getTestSeries(options?: {
 export async function getTestSeriesById(
   id: string,
 ): Promise<TestSeriesWithCategory | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_series")
     .select("*, test_categories(id, title)")
@@ -72,7 +72,7 @@ export async function getTestSeriesById(
 export async function getTestSeriesItems(
   seriesId: string,
 ): Promise<TestSeriesItem[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_series_items")
     .select("*")
@@ -90,7 +90,7 @@ export async function getTestSeriesItems(
 export async function getTestSeriesItemById(
   itemId: string,
 ): Promise<TestSeriesItem | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_series_items")
     .select("*")
@@ -108,7 +108,7 @@ export async function getTestSeriesItemById(
 export async function getTestQuestions(
   testSeriesItemId: string,
 ): Promise<Question[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
 
   // 1. Query questions table directly matching test_ids array
   const { data, error } = await supabase
@@ -144,7 +144,7 @@ export async function getTestQuestions(
 export async function getPopularTestItems(
   limit = 8,
 ): Promise<TestSeriesItem[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_series_items")
     .select("*")
@@ -157,4 +157,17 @@ export async function getPopularTestItems(
     return [];
   }
   return data ?? [];
+}
+
+export async function getAllTestSeriesIds(): Promise<string[]> {
+  const supabase = getPublicClient();
+  const { data, error } = await supabase
+    .from("test_series")
+    .select("id");
+
+  if (error) {
+    console.error("getAllTestSeriesIds:", error.message);
+    return [];
+  }
+  return (data ?? []).map((s: { id: string }) => s.id);
 }

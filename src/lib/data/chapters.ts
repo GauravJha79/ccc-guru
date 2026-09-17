@@ -1,9 +1,8 @@
-import { createClient } from '@/lib/supabase/server';
-import { createBuildClient } from '@/lib/supabase/build';
+import { getPublicClient } from '@/lib/supabase/public';
 import type { Chapter } from '@/types/database';
 
 export async function getChapters(): Promise<Chapter[]> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('chapters')
     .select('*')
@@ -18,7 +17,7 @@ export async function getChapters(): Promise<Chapter[]> {
 }
 
 export async function getChapterById(id: string): Promise<Chapter | null> {
-  const supabase = await createClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('chapters')
     .select('*')
@@ -34,8 +33,7 @@ export async function getChapterById(id: string): Promise<Chapter | null> {
 }
 
 export async function getAllChapterIds(): Promise<string[]> {
-  // Use build client (no cookies) — safe for generateStaticParams
-  const supabase = createBuildClient();
+  const supabase = getPublicClient();
   const { data, error } = await supabase
     .from('chapters')
     .select('id')

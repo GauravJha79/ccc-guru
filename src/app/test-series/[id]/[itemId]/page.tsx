@@ -10,6 +10,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { getDifficultyColor } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 interface TestSetPageProps {
   params: Promise<{ id: string; itemId: string }>;
 }
@@ -95,10 +97,7 @@ export default async function TestSetPage({ params }: TestSetPageProps) {
         </div>
 
         {/* Instructions */}
-        <div
-          className="rounded-xl p-5 mb-6"
-          style={{ backgroundColor: 'rgb(var(--color-bg-subtle))' }}
-        >
+        <div className="rounded-xl p-5 mb-6 bg-bg-subtle">
           <h2 className="font-semibold text-text-primary mb-3 flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
             Test Instructions

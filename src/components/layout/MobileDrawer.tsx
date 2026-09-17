@@ -72,7 +72,7 @@ export function MobileDrawer({ open, onClose, pathname }: MobileDrawerProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
           <span className="font-bold text-lg text-text-primary">
-            CCC <span className="gradient-text">Prep</span>
+            CCC <span className="gradient-text">Guru</span>
           </span>
           <button
             onClick={onClose}

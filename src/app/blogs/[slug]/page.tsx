@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { formatDate, readingTime, siteUrl } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 interface BlogPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -63,7 +65,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
     url: siteUrl(`/blogs/${slug}`),
     publisher: {
       '@type': 'Organization',
-      name: 'CCC Prep',
+      name: 'CCC Guru',
       url: process.env.NEXT_PUBLIC_SITE_URL,
     },
     ...(blog.featured_image ? { image: blog.featured_image } : {}),

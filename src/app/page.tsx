@@ -34,13 +34,15 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { CardSkeleton } from "@/components/ui/Skeleton";
 import { formatDate, formatPrice } from "@/lib/utils";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
-  title: "CCC Prep — Free NIELIT CCC Exam Preparation",
+  title: "CCC Guru — Free NIELIT CCC Exam Preparation",
   description:
     "Prepare for NIELIT CCC exam with free bilingual mock tests, study notes, expert blogs and recommended books. Trusted by thousands of CCC aspirants across India.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "CCC Prep — Free NIELIT CCC Exam Preparation",
+    title: "CCC Guru — Free NIELIT CCC Exam Preparation",
     description:
       "Free bilingual mock tests, study notes, expert blogs and books for NIELIT CCC exam.",
     url: "/",
@@ -51,12 +53,12 @@ export const metadata: Metadata = {
 const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "CCC Prep",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccprep.in",
+  name: "CCC Guru",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in",
   description: "India's trusted NIELIT CCC exam preparation platform.",
   contactPoint: {
     "@type": "ContactPoint",
-    email: "hello@cccprep.in",
+    email: "hello@cccguru.in",
     contactType: "customer support",
   },
 };
@@ -64,13 +66,13 @@ const orgJsonLd = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "CCC Prep",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccprep.in",
+  name: "CCC Guru",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccprep.in"}/search?q={search_term_string}`,
+      urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in"}/search?q={search_term_string}`,
     },
     "query-input": "required name=search_term_string",
   },
@@ -128,7 +130,7 @@ const FAQS = [
   },
   {
     q: "How to prepare for CCC exam?",
-    a: "Practice daily with mock tests, read chapter-wise notes, and focus on topics like MS Office, Internet, Operating Systems, and basic computer concepts. CCC Prep provides all these resources for free.",
+    a: "Practice daily with mock tests, read chapter-wise notes, and focus on topics like MS Office, Internet, Operating Systems, and basic computer concepts. CCC Guru provides all these resources for free.",
   },
 ];
 
@@ -201,7 +203,7 @@ export default async function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link href="/tests" className="btn-primary text-base px-6 py-3">
                 <FlaskConical className="w-5 h-5" />
-                Start Mock Test
+                Start CCC Online Test
               </Link>
               <Link
                 href="/notes"
@@ -272,14 +274,14 @@ export default async function HomePage() {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 id="featured-series-heading" className="section-heading">
-                  Featured Test Series
+                  Featured CCC Online Test Series
                 </h2>
                 <p className="text-sm text-text-muted mt-1">
-                  Comprehensive test series for complete CCC preparation
+                  Practice comprehensive bilingual CCC online mock tests
                 </p>
               </div>
               <Link href="/tests" className="hidden sm:flex btn-ghost text-sm">
-                All Series <ArrowRight className="w-4 h-4" />
+                All Online Tests <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -567,7 +569,7 @@ export default async function HomePage() {
         <div className="container-page">
           <div className="text-center mb-10">
             <h2 id="benefits-heading" className="section-heading">
-              Why Choose CCC Prep?
+              Why Choose CCC Guru?
             </h2>
             <p className="text-text-muted mt-3 max-w-xl mx-auto">
               Everything you need to pass the NIELIT CCC exam, completely free.
@@ -657,7 +659,7 @@ export default async function HomePage() {
             Study on the Go
           </h2>
           <p className="text-primary-200 mb-7 max-w-md mx-auto">
-            Download the CCC Prep app and practice mock tests anytime, anywhere
+            Download the CCC Guru app and practice mock tests anytime, anywhere
             — even offline.
           </p>
           <div className="flex flex-wrap justify-center gap-3">

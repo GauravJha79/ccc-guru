@@ -8,6 +8,8 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { CategoryFilter } from '@/components/ui/CategoryFilter';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Best CCC Books — Top Recommended Books for NIELIT CCC',
   description:

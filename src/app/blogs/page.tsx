@@ -9,10 +9,12 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { CategoryFilter } from '@/components/ui/CategoryFilter';
 import { formatDate, readingTime } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'CCC Exam Blog — Tips, Guides & Latest Updates',
   description:
-    'Expert articles, exam tips, study guides and latest CCC exam updates. Stay informed with CCC Prep blog.',
+    'Expert articles, exam tips, study guides and latest CCC exam updates. Stay informed with CCC Guru blog.',
   alternates: { canonical: '/blogs' },
   openGraph: {
     title: 'CCC Exam Blog — Tips, Guides & Updates',
