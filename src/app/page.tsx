@@ -32,6 +32,7 @@ import { getBooks } from "@/lib/data/books";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { CardSkeleton } from "@/components/ui/Skeleton";
+import { TestSeriesCard } from "@/components/tests/TestSeriesCard";
 import { formatDate, formatPrice } from "@/lib/utils";
 
 export const revalidate = 3600;
@@ -284,39 +285,9 @@ export default async function HomePage() {
                 All Online Tests <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {featuredSeries.map((series) => (
-                <Link
-                  key={series.id}
-                  href={`/test-series/${series.slug}`}
-                  className="card p-5 flex flex-col gap-3 group"
-                >
-                  {series.featured_tag && (
-                    <Badge variant="primary" size="sm">
-                      {series.featured_tag}
-                    </Badge>
-                  )}
-                  <h3 className="font-semibold text-text-primary group-hover:text-primary-600 transition-colors leading-snug">
-                    {series.title}
-                  </h3>
-                  {series.featured_short_desc && (
-                    <p className="text-xs text-text-muted line-clamp-2">
-                      {series.featured_short_desc}
-                    </p>
-                  )}
-                  <div className="flex items-center justify-between mt-auto pt-2">
-                    <div className="flex items-center gap-1.5 text-xs text-text-muted">
-                      <NotebookText className="w-3.5 h-3.5" />
-                      {series.total_sets_available} Sets
-                    </div>
-                    <Badge
-                      variant={series.is_paid ? "warning" : "success"}
-                      size="sm"
-                    >
-                      {series.is_paid ? formatPrice(series.price) : "Free"}
-                    </Badge>
-                  </div>
-                </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {featuredSeries.map((series, idx) => (
+                <TestSeriesCard key={series.id} series={series} priority={idx < 2} />
               ))}
             </div>
           </div>

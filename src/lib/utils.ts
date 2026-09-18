@@ -77,3 +77,34 @@ export function readingTime(content: string): string {
   const minutes = Math.ceil(words / 200);
   return `${minutes} min read`;
 }
+
+// Resolve Supabase Storage or external image URL safely
+export function getImageUrl(path?: string | null, defaultBucket = 'images'): string | null {
+  if (!path) return null;
+  const trimmed = path.trim();
+  if (!trimmed) return null;
+
+  // Already a full URL
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+    return trimmed;
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://zxzzxtiwlndsghmelnph.supabase.co';
+  const cleanSupabaseUrl = supabaseUrl.replace(/\/+$/, '');
+
+  // Full path from storage root
+  if (trimmed.startsWith('/storage/v1/object/public/')) {
+    return `${cleanSupabaseUrl}${trimmed}`;
+  }
+  if (trimmed.startsWith('storage/v1/object/public/')) {
+    return `${cleanSupabaseUrl}/${trimmed}`;
+  }
+
+  // Relative path with or without bucket name
+  const cleanPath = trimmed.replace(/^\/+/, '');
+  if (cleanPath.startsWith(`${defaultBucket}/`)) {
+    return `${cleanSupabaseUrl}/storage/v1/object/public/${cleanPath}`;
+  }
+
+  return `${cleanSupabaseUrl}/storage/v1/object/public/${defaultBucket}/${cleanPath}`;
+}

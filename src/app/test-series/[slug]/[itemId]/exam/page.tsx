@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getTestSeriesItemById, getTestQuestions } from '@/lib/data/tests';
+import { getChapters } from '@/lib/data/chapters';
 import { ExamInterface } from '@/components/tests/ExamInterface';
 
 interface ExamPageProps {
@@ -9,9 +10,10 @@ interface ExamPageProps {
 export default async function ExamPage({ params }: ExamPageProps) {
   const { slug, itemId } = await params;
 
-  const [item, questions] = await Promise.all([
+  const [item, questions, chapters] = await Promise.all([
     getTestSeriesItemById(itemId),
     getTestQuestions(itemId),
+    getChapters(),
   ]);
 
   if (!item) notFound();
@@ -38,6 +40,7 @@ export default async function ExamPage({ params }: ExamPageProps) {
       item={item}
       questions={activeQuestions}
       seriesSlug={slug}
+      chapters={chapters}
     />
   );
 }

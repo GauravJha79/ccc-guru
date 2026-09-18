@@ -1,12 +1,12 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
-import { Calendar, User, Clock, ArrowLeft, Tag } from 'lucide-react';
-import { getBlogBySlug, getBlogs, getAllBlogSlugs } from '@/lib/data/blogs';
-import { Badge } from '@/components/ui/Badge';
-import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { formatDate, readingTime, siteUrl } from '@/lib/utils';
+import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Calendar, User, Clock, ArrowLeft, Tag } from "lucide-react";
+import { getBlogBySlug, getBlogs, getAllBlogSlugs } from "@/lib/data/blogs";
+import { Badge } from "@/components/ui/Badge";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { formatDate, readingTime, siteUrl } from "@/lib/utils";
 
 export const revalidate = 3600;
 
@@ -19,23 +19,27 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: BlogPageProps): Promise<Metadata> {
   const { slug } = await params;
   const blog = await getBlogBySlug(slug);
-  if (!blog) return { title: 'Blog Not Found' };
+  if (!blog) return { title: "Blog Not Found" };
 
   return {
     title: blog.title_en,
     description: blog.summary_en ?? blog.title_en,
     alternates: { canonical: `/blogs/${slug}` },
     openGraph: {
-      type: 'article',
+      type: "article",
       title: blog.title_en,
-      description: blog.summary_en ?? '',
+      description: blog.summary_en ?? "",
       url: `/blogs/${slug}`,
       publishedTime: blog.published_at ?? undefined,
       authors: [blog.author],
-      ...(blog.featured_image ? { images: [{ url: blog.featured_image, width: 1200, height: 630 }] } : {}),
+      ...(blog.featured_image
+        ? { images: [{ url: blog.featured_image, width: 1200, height: 630 }] }
+        : {}),
     },
   };
 }
@@ -55,17 +59,17 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
   // Article JSON-LD
   const articleJsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+    "@context": "https://schema.org",
+    "@type": "Article",
     headline: blog.title_en,
-    description: blog.summary_en ?? '',
-    author: { '@type': 'Person', name: blog.author },
+    description: blog.summary_en ?? "",
+    author: { "@type": "Person", name: blog.author },
     datePublished: blog.published_at,
     dateModified: blog.created_at,
     url: siteUrl(`/blogs/${slug}`),
     publisher: {
-      '@type': 'Organization',
-      name: 'CCC Guru',
+      "@type": "Organization",
+      name: "CCC Guru",
       url: process.env.NEXT_PUBLIC_SITE_URL,
     },
     ...(blog.featured_image ? { image: blog.featured_image } : {}),
@@ -80,9 +84,14 @@ export default async function BlogPage({ params }: BlogPageProps) {
 
       <Breadcrumbs
         items={[
-          { label: 'Blogs', href: '/blogs' },
+          { label: "Blogs", href: "/blogs" },
           ...(blog.blog_categories
-            ? [{ label: blog.blog_categories.title, href: `/blogs?category=${blog.category_id}` }]
+            ? [
+                {
+                  label: blog.blog_categories.title,
+                  href: `/blogs?category=${blog.category_id}`,
+                },
+              ]
             : []),
           { label: blog.title_en },
         ]}
@@ -132,7 +141,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
             {blog.published_at && (
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />
-                <time dateTime={blog.published_at}>{formatDate(blog.published_at)}</time>
+                <time dateTime={blog.published_at}>
+                  {formatDate(blog.published_at)}
+                </time>
               </span>
             )}
             <span className="flex items-center gap-1.5">
@@ -154,7 +165,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
           {/* Related posts */}
           {related.length > 0 && (
             <div className="card p-5">
-              <h2 className="font-semibold text-text-primary mb-4">Related Articles</h2>
+              <h2 className="font-semibold text-text-primary mb-4">
+                Related Articles
+              </h2>
               <div className="space-y-4">
                 {related.map((r) => (
                   <Link
@@ -178,7 +191,9 @@ export default async function BlogPage({ params }: BlogPageProps) {
                         {r.title_en}
                       </p>
                       {r.published_at && (
-                        <p className="text-xs text-text-muted mt-1">{formatDate(r.published_at)}</p>
+                        <p className="text-xs text-text-muted mt-1">
+                          {formatDate(r.published_at)}
+                        </p>
                       )}
                     </div>
                   </Link>
@@ -195,7 +210,10 @@ export default async function BlogPage({ params }: BlogPageProps) {
             <p className="text-xs text-text-muted mb-4">
               Take a free CCC mock test now
             </p>
-            <Link href="/tests" className="btn-primary w-full justify-center text-sm">
+            <Link
+              href="/tests"
+              className="btn-primary w-full justify-center text-sm"
+            >
               Start Mock Test
             </Link>
           </div>
@@ -206,9 +224,18 @@ export default async function BlogPage({ params }: BlogPageProps) {
 }
 
 // Separate component for content language toggle
-import { BlogContentToggle } from '@/components/blogs/BlogContentToggle';
+import { BlogContentToggle } from "@/components/blogs/BlogContentToggle";
 
-function BlogContent({ blog }: { blog: Awaited<ReturnType<typeof getBlogBySlug>> }) {
+function BlogContent({
+  blog,
+}: {
+  blog: Awaited<ReturnType<typeof getBlogBySlug>>;
+}) {
   if (!blog) return null;
-  return <BlogContentToggle contentEn={blog.content_en} contentHi={blog.content_hi} />;
+  return (
+    <BlogContentToggle
+      contentEn={blog.content_en}
+      contentHi={blog.content_hi}
+    />
+  );
 }
