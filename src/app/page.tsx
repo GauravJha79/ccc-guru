@@ -288,7 +288,7 @@ export default async function HomePage() {
               {featuredSeries.map((series) => (
                 <Link
                   key={series.id}
-                  href={`/test-series/${series.id}`}
+                  href={`/test-series/${series.slug}`}
                   className="card p-5 flex flex-col gap-3 group"
                 >
                   {series.featured_tag && (
@@ -337,12 +337,16 @@ export default async function HomePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {popularItems.map((item) => (
-                <div key={item.id} className="card p-4 flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950 flex items-center justify-center shrink-0">
+                <Link
+                  key={item.id}
+                  href={`/test-series/${item.test_series?.slug || item.series_id}/${item.id}`}
+                  className="card p-4 flex items-center gap-4 group hover:border-primary-400 dark:hover:border-primary-600 transition-all cursor-pointer shadow-sm hover:shadow-card"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-950 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
                     <NotebookPen className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-text-primary truncate">
+                    <h3 className="text-sm font-semibold text-text-primary group-hover:text-primary-600 transition-colors truncate">
                       {item.title}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
@@ -366,7 +370,8 @@ export default async function HomePage() {
                       </Badge>
                     </div>
                   </div>
-                </div>
+                  <ArrowRight className="w-4 h-4 text-text-muted group-hover:text-primary-600 group-hover:translate-x-1 transition-all shrink-0" />
+                </Link>
               ))}
             </div>
           </div>

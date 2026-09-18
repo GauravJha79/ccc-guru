@@ -79,7 +79,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
               <h2 className="text-lg font-semibold text-text-primary mb-3">Test Series</h2>
               <div className="space-y-2">
                 {filteredSeries.map((s) => (
-                  <Link key={s.id} href={`/test-series/${s.id}`} className="card p-4 flex items-center gap-3 group">
+                  <Link key={s.id} href={`/test-series/${s.slug}`} className="card p-4 flex items-center gap-3 group">
                     <Badge variant={s.is_paid ? 'warning' : 'success'} size="sm">
                       {s.is_paid ? 'Paid' : 'Free'}
                     </Badge>

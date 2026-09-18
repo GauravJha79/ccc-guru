@@ -3,11 +3,11 @@ import { getTestSeriesItemById, getTestQuestions } from '@/lib/data/tests';
 import { ExamInterface } from '@/components/tests/ExamInterface';
 
 interface ExamPageProps {
-  params: Promise<{ id: string; itemId: string }>;
+  params: Promise<{ slug: string; itemId: string }>;
 }
 
 export default async function ExamPage({ params }: ExamPageProps) {
-  const { id, itemId } = await params;
+  const { slug, itemId } = await params;
 
   const [item, questions] = await Promise.all([
     getTestSeriesItemById(itemId),
@@ -37,7 +37,7 @@ export default async function ExamPage({ params }: ExamPageProps) {
     <ExamInterface
       item={item}
       questions={activeQuestions}
-      seriesId={id}
+      seriesSlug={slug}
     />
   );
 }

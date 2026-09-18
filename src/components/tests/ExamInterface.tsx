@@ -28,7 +28,8 @@ import { Badge } from "@/components/ui/Badge";
 interface ExamInterfaceProps {
   item: TestSeriesItem;
   questions: Question[];
-  seriesId: string;
+  seriesSlug?: string;
+  seriesId?: string;
 }
 
 type ExamState = "active" | "submitted";
@@ -39,6 +40,7 @@ const STORAGE_KEY = "ccc-exam-language-preference";
 export function ExamInterface({
   item,
   questions,
+  seriesSlug,
   seriesId,
 }: ExamInterfaceProps) {
   const [examState, setExamState] = useState<ExamState>("active");
@@ -186,6 +188,7 @@ export function ExamInterface({
         result={result}
         questions={questions}
         item={item}
+        seriesSlug={seriesSlug}
         seriesId={seriesId}
         initialLang={language === "hi" ? "hi" : "en"}
         onReattempt={() => {
@@ -519,6 +522,7 @@ function ResultScreen({
   result,
   questions,
   item,
+  seriesSlug,
   seriesId,
   initialLang = "en",
   onReattempt,
@@ -526,7 +530,8 @@ function ResultScreen({
   result: ExamResult;
   questions: Question[];
   item: TestSeriesItem;
-  seriesId: string;
+  seriesSlug?: string;
+  seriesId?: string;
   initialLang?: "en" | "hi";
   onReattempt: () => void;
 }) {
@@ -630,7 +635,7 @@ function ResultScreen({
             Reattempt
           </button>
           <Link
-            href={`/test-series/${seriesId}`}
+            href={`/test-series/${seriesSlug || seriesId}`}
             className="btn-ghost flex-1 justify-center"
           >
             <Home className="w-4 h-4" />

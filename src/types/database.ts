@@ -14,7 +14,10 @@ export interface TestSeries {
   id: string;
   category_id: string | null;
   title: string;
+  slug: string;
   description: string | null;
+  description_md: string | null;
+  featured_image?: string | null;
   is_featured: boolean;
   featured_tag: string | null;
   featured_short_desc: string | null;

@@ -99,7 +99,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               {relatedTests.map((s) => (
                 <Link
                   key={s.id}
-                  href={`/test-series/${s.id}`}
+                  href={`/test-series/${s.slug}`}
                   className="card px-4 py-3 flex items-center gap-3 group"
                 >
                   <FlaskConical className="w-4 h-4 text-primary-500 shrink-0" />

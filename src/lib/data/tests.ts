@@ -69,6 +69,35 @@ export async function getTestSeriesById(
   return data as TestSeriesWithCategory;
 }
 
+export async function getTestSeriesBySlug(
+  slug: string,
+): Promise<TestSeriesWithCategory | null> {
+  const supabase = getPublicClient();
+  const { data, error } = await supabase
+    .from("test_series")
+    .select("*, test_categories(id, title)")
+    .eq("slug", slug)
+    .maybeSingle();
+
+  if (data) return data as TestSeriesWithCategory;
+
+  // Fallback: check by ID in case an ID was passed
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+  if (isUuid) {
+    const res = await supabase
+      .from("test_series")
+      .select("*, test_categories(id, title)")
+      .eq("id", slug)
+      .maybeSingle();
+    if (res.data) return res.data as TestSeriesWithCategory;
+  }
+
+  if (error) {
+    console.error("getTestSeriesBySlug:", error.message);
+  }
+  return null;
+}
+
 export async function getTestSeriesItems(
   seriesId: string,
 ): Promise<TestSeriesItem[]> {
@@ -143,11 +172,11 @@ export async function getTestQuestions(
 
 export async function getPopularTestItems(
   limit = 8,
-): Promise<TestSeriesItem[]> {
+): Promise<(TestSeriesItem & { test_series?: { id: string; title: string; slug: string } | null })[]> {
   const supabase = getPublicClient();
   const { data, error } = await supabase
     .from("test_series_items")
-    .select("*")
+    .select("*, test_series(id, title, slug)")
     .eq("is_published", true)
     .order("created_at", { ascending: false })
     .limit(limit);
@@ -156,7 +185,7 @@ export async function getPopularTestItems(
     console.error("getPopularTestItems:", error.message);
     return [];
   }
-  return data ?? [];
+  return (data as any) ?? [];
 }
 
 export async function getAllTestSeriesIds(): Promise<string[]> {
@@ -170,4 +199,19 @@ export async function getAllTestSeriesIds(): Promise<string[]> {
     return [];
   }
   return (data ?? []).map((s: { id: string }) => s.id);
+}
+
+export async function getAllTestSeriesSlugs(): Promise<string[]> {
+  const supabase = getPublicClient();
+  const { data, error } = await supabase
+    .from("test_series")
+    .select("slug");
+
+  if (error) {
+    console.error("getAllTestSeriesSlugs:", error.message);
+    return [];
+  }
+  return (data ?? [])
+    .map((s: { slug: string }) => s.slug)
+    .filter(Boolean);
 }

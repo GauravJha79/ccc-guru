@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllBlogSlugs } from "@/lib/data/blogs";
 import { getAllBookIds } from "@/lib/data/books";
 import { getAllChapterIds } from "@/lib/data/chapters";
-import { getAllTestSeriesIds } from "@/lib/data/tests";
+import { getAllTestSeriesSlugs } from "@/lib/data/tests";
 import { getAllNoteIds } from "@/lib/data/notes";
 
 export const revalidate = 3600;
@@ -16,12 +16,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   // Safely fetch dynamic content with fallbacks so sitemap never fails
-  const [blogSlugs, bookIds, chapterIds, testSeriesIds, noteIds] =
+  const [blogSlugs, bookIds, chapterIds, testSeriesSlugs, noteIds] =
     await Promise.all([
       getAllBlogSlugs().catch(() => []),
       getAllBookIds().catch(() => []),
       getAllChapterIds().catch(() => []),
-      getAllTestSeriesIds().catch(() => []),
+      getAllTestSeriesSlugs().catch(() => []),
       getAllNoteIds().catch(() => []),
     ]);
 
@@ -100,9 +100,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const testSeriesRoutes: MetadataRoute.Sitemap = (testSeriesIds || []).map(
-    (id) => ({
-      url: `${siteUrl}/test-series/${encodeURIComponent(id)}`,
+  const testSeriesRoutes: MetadataRoute.Sitemap = (testSeriesSlugs || []).map(
+    (slug) => ({
+      url: `${siteUrl}/test-series/${encodeURIComponent(slug)}`,
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,

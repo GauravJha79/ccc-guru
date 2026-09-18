@@ -96,7 +96,7 @@ export default async function TestsPage({ searchParams }: TestsPageProps) {
           {series.map((s) => (
             <Link
               key={s.id}
-              href={`/test-series/${s.id}`}
+              href={`/test-series/${s.slug}`}
               className="card p-5 flex flex-col gap-3 group"
             >
               {/* Header row */}

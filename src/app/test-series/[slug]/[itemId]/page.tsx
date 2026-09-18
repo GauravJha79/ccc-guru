@@ -5,25 +5,26 @@ import {
   Clock, FileQuestion, BarChart3, AlertTriangle,
   CheckCircle, ChevronLeft, Play
 } from 'lucide-react';
-import { getTestSeriesById, getTestSeriesItemById } from '@/lib/data/tests';
+import { getTestSeriesBySlug, getTestSeriesItemById } from '@/lib/data/tests';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { getDifficultyColor } from '@/lib/utils';
 
-export const revalidate = 3600;
+export const dynamicParams = true;
+export const revalidate = 60;
 
 interface TestSetPageProps {
-  params: Promise<{ id: string; itemId: string }>;
+  params: Promise<{ slug: string; itemId: string }>;
 }
 
 export async function generateMetadata({ params }: TestSetPageProps): Promise<Metadata> {
-  const { id, itemId } = await params;
+  const { slug, itemId } = await params;
   const item = await getTestSeriesItemById(itemId);
   if (!item) return { title: 'Test Not Found' };
   return {
     title: item.title,
     description: `${item.question_count} questions · ${item.duration} minutes · ${item.difficulty}. Start your CCC practice test now.`,
-    alternates: { canonical: `/test-series/${id}/${itemId}` },
+    alternates: { canonical: `/test-series/${slug}/${itemId}` },
     robots: { index: false }, // Don't index individual test instruction pages
   };
 }
@@ -41,20 +42,22 @@ const INSTRUCTIONS = [
 ];
 
 export default async function TestSetPage({ params }: TestSetPageProps) {
-  const { id, itemId } = await params;
+  const { slug, itemId } = await params;
   const [series, item] = await Promise.all([
-    getTestSeriesById(id),
+    getTestSeriesBySlug(slug),
     getTestSeriesItemById(itemId),
   ]);
 
   if (!item || !series) notFound();
+
+  const seriesSlug = series.slug || slug;
 
   return (
     <div className="container-page py-8 max-w-3xl">
       <Breadcrumbs
         items={[
           { label: 'Tests', href: '/tests' },
-          { label: series.title, href: `/test-series/${id}` },
+          { label: series.title, href: `/test-series/${seriesSlug}` },
           { label: item.title },
         ]}
       />
@@ -115,7 +118,7 @@ export default async function TestSetPage({ params }: TestSetPageProps) {
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-3">
           <Link
-            href={`/test-series/${id}/${itemId}/exam`}
+            href={`/test-series/${seriesSlug}/${itemId}/exam`}
             className="btn-primary flex-1 justify-center py-3 text-base"
             id="start-test-btn"
           >
@@ -123,7 +126,7 @@ export default async function TestSetPage({ params }: TestSetPageProps) {
             Start Test
           </Link>
           <Link
-            href={`/test-series/${id}`}
+            href={`/test-series/${seriesSlug}`}
             className="btn-secondary flex-1 justify-center py-3"
           >
             <ChevronLeft className="w-4 h-4" />

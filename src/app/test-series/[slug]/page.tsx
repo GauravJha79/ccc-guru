@@ -1,30 +1,28 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import {
   FlaskConical, Clock, BarChart3, Star, Users, ArrowRight,
-  CheckCircle, Lock, ChevronRight
+  CheckCircle, Lock, ChevronRight, BookOpen
 } from 'lucide-react';
-import { getTestSeriesById, getTestSeriesItems, getAllTestSeriesIds } from '@/lib/data/tests';
+import { getTestSeriesBySlug, getTestSeriesItems } from '@/lib/data/tests';
 import { Badge } from '@/components/ui/Badge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { formatPrice, getDifficultyColor } from '@/lib/utils';
 
-export const revalidate = 3600;
+export const dynamicParams = true;
+export const revalidate = 60;
 
 interface TestSeriesPageProps {
-  params: Promise<{ id: string }>;
-}
-
-export async function generateStaticParams() {
-  const ids = await getAllTestSeriesIds();
-  return ids.map((id) => ({ id }));
+  params: Promise<{ slug: string }>;
 }
 
 export async function generateMetadata({ params }: TestSeriesPageProps): Promise<Metadata> {
-  const { id } = await params;
-  const series = await getTestSeriesById(id);
+  const { slug } = await params;
+  const series = await getTestSeriesBySlug(slug);
   if (!series) return { title: 'Test Series Not Found' };
 
   const title = `${series.title} — Free CCC Online Test`;
@@ -43,23 +41,22 @@ export async function generateMetadata({ params }: TestSeriesPageProps): Promise
       'CCC online practice test',
       'CCC exam test series',
     ],
-    alternates: { canonical: `/test-series/${id}` },
+    alternates: { canonical: `/test-series/${series.slug}` },
     openGraph: {
       title,
       description,
-      url: `/test-series/${id}`,
+      url: `/test-series/${series.slug}`,
     },
   };
 }
 
 export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
-  const { id } = await params;
-  const [series, items] = await Promise.all([
-    getTestSeriesById(id),
-    getTestSeriesItems(id),
-  ]);
+  const { slug } = await params;
+  const series = await getTestSeriesBySlug(slug);
 
   if (!series) notFound();
+
+  const items = await getTestSeriesItems(series.id);
 
   const testSeriesJsonLd = {
     '@context': 'https://schema.org',
@@ -75,7 +72,7 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
       name: 'CCC Guru',
       url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in',
     },
-    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/test-series/${id}`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/test-series/${series.slug}`,
   };
 
   return (
@@ -134,7 +131,7 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
           <div className="flex flex-col gap-3 min-w-[160px]">
             {items.length > 0 && (
               <Link
-                href={`/test-series/${id}/${items[0].id}`}
+                href={`/test-series/${series.slug}/${items[0].id}`}
                 className="btn-primary w-full justify-center"
               >
                 Start First Test
@@ -160,7 +157,7 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
           {items.map((item, index) => (
             <Link
               key={item.id}
-              href={`/test-series/${id}/${item.id}`}
+              href={`/test-series/${series.slug}/${item.id}`}
               className="card p-4 flex items-center gap-4 group"
             >
               {/* Number */}
@@ -201,6 +198,17 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
             </Link>
           ))}
         </div>
+      )}
+
+      {/* Detailed Description / Markdown Guide (SEO Content) */}
+      {series.description_md && (
+        <section className="mt-12 pt-8 border-t border-border">
+          <div className="prose-ccc max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {series.description_md}
+            </ReactMarkdown>
+          </div>
+        </section>
       )}
     </div>
   );
