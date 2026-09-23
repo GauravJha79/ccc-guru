@@ -52,23 +52,39 @@ export function truncate(text: string, length: number): string {
   return text.slice(0, length).trimEnd() + '…';
 }
 
-// Build absolute site URL
-export function siteUrl(path: string): string {
+// Build absolute site URL with canonical host https://www.cccguru.in
+export function siteUrl(path: string = ''): string {
   const base = (
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.cccguru.in'
   )
-    .replace(/cccprep\.in/gi, 'cccguru.in')
+    .replace(/^https?:\/\/cccguru\.in/i, 'https://www.cccguru.in')
+    .replace(/cccprep\.in/gi, 'www.cccguru.in')
     .replace(/\/+$/, '');
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  const cleanPath = path ? (path.startsWith('/') ? path : `/${path}`) : '';
   return `${base}${cleanPath}`;
 }
 
-// Simple slug from title (for display only, not used for DB slugs)
+// Canonical chapter slugs mapped by chapter sort_order
+export const CHAPTER_SLUGS: Record<number, string> = {
+  1: 'chapter-1-introduction-to-computer',
+  2: 'chapter-2-operating-systems',
+  3: 'chapter-3-libreoffice-writer',
+  4: 'chapter-4-libreoffice-calc',
+  5: 'chapter-5-libreoffice-impress',
+  6: 'chapter-6-internet-and-web',
+  7: 'chapter-7-email-social-media-egovernance',
+  8: 'chapter-8-digital-financial-tools',
+  9: 'chapter-9-cyber-security-future-skills',
+};
+
+// Simple slug from title
 export function toSlug(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 // Calculate reading time for blog content

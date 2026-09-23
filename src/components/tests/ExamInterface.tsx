@@ -1401,7 +1401,7 @@ function ResultScreen({
   const [scorecardDataUrl, setScorecardDataUrl] = useState<string | null>(null);
   const [scorecardBlob, setScorecardBlob] = useState<Blob | null>(null);
   const [copiedText, setCopiedText] = useState(false);
-  const [shareUrl, setShareUrl] = useState("https://cccguru.in");
+  const [shareUrl, setShareUrl] = useState("https://www.cccguru.in");
   const scorecardRef = useRef<HTMLDivElement>(null);
 
   const totalQuestions = questions.length;

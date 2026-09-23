@@ -1,10 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'
-)
-  .replace(/cccprep\.in/gi, 'cccguru.in')
-  .replace(/\/+$/, '');
+const siteUrl = 'https://www.cccguru.in';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -14,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
         disallow: [
           '/api/',
-          '/test-series/*/exam',  // Don't index live exam pages
+          '/test-series/*/exam', // Don't index live exam sessions
           '/search',
         ],
       },

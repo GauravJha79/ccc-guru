@@ -6,20 +6,21 @@ import { BookOpen, Mail, ExternalLink } from "lucide-react";
 
 const FOOTER_LINKS = {
   Platform: [
-    { href: "/tests", label: "CCC Online Test" },
-    { href: "/notes", label: "Study Notes" },
-    { href: "/blogs", label: "Blogs" },
-    { href: "/books", label: "Books" },
-    { href: "/chapters", label: "Chapters" },
+    { href: "/tests", label: "CCC Online Test 2026" },
+    { href: "/test-series/ccc-full-mock-test-series-2026", label: "CCC Full Mock Test" },
+    { href: "/ccc-syllabus", label: "NIELIT CCC Syllabus" },
+    { href: "/chapters", label: "CCC Chapters (Syllabus)" },
+    { href: "/blogs", label: "Exam Preparation Blogs" },
   ],
   "CCC Exam": [
-    { href: "/ccc-syllabus", label: "CCC Syllabus" },
-    { href: "/blogs", label: "Exam Tips" },
-    { href: "/tests", label: "Online Mock Tests" },
+    { href: "/ccc-syllabus", label: "Revised Exam Pattern" },
+    { href: "/tests", label: "Practice Tests in Hindi & English" },
+    { href: "/chapters", label: "Chapter-Wise Mock Tests" },
+    { href: "/blogs", label: "CCC Study Guides & Tips" },
   ],
   Company: [
     { href: "/about", label: "About Us" },
-    { href: "/contact", label: "Contact" },
+    { href: "/contact", label: "Contact Us" },
     { href: "/privacy", label: "Privacy Policy" },
     { href: "/terms", label: "Terms of Service" },
   ],

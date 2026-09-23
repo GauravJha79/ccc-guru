@@ -31,11 +31,11 @@ export async function generateMetadata({
     description:
       book.description ??
       `${book.title} by ${book.author} — Recommended CCC exam preparation book.`,
-    alternates: { canonical: `/books/${id}` },
+    alternates: { canonical: siteUrl(`/books/${id}`) },
     openGraph: {
       title: book.title,
       description: book.description ?? `${book.title} by ${book.author}`,
-      url: `/books/${id}`,
+      url: siteUrl(`/books/${id}`),
       ...(book.cover_image ? { images: [{ url: book.cover_image }] } : {}),
     },
   };

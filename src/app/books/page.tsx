@@ -14,11 +14,15 @@ export const metadata: Metadata = {
   title: 'Best CCC Books — Top Recommended Books for NIELIT CCC',
   description:
     'Discover the best CCC books recommended by experts. Find top-rated books for NIELIT CCC exam preparation with Amazon and Flipkart buy links.',
-  alternates: { canonical: '/books' },
+  alternates: { canonical: 'https://www.cccguru.in/books' },
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: 'Best CCC Books — Recommended by Experts',
     description: 'Top CCC books with buy links on Amazon and Flipkart.',
-    url: '/books',
+    url: 'https://www.cccguru.in/books',
   },
 };
 
@@ -91,9 +95,9 @@ export default async function BooksPage({ searchParams }: BooksPageProps) {
                     </div>
                     <div className="flex-1 min-w-0 flex flex-col gap-2">
                       <Badge variant="primary" size="sm">Featured</Badge>
-                      <h2 className="font-semibold text-text-primary group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                      <h3 className="font-semibold text-text-primary group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                         {book.title}
-                      </h2>
+                      </h3>
                       <p className="text-sm text-text-muted">{book.author}</p>
                       <p className="text-xs text-text-muted">{book.language}</p>
                     </div>
@@ -124,9 +128,9 @@ export default async function BooksPage({ searchParams }: BooksPageProps) {
                   )}
                 </div>
                 <div>
-                  <h2 className="text-sm font-semibold text-text-primary group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
+                  <h3 className="text-sm font-semibold text-text-primary group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                     {book.title}
-                  </h2>
+                  </h3>
                   <p className="text-xs text-text-muted mt-1">{book.author}</p>
                 </div>
               </Link>

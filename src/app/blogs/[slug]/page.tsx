@@ -29,12 +29,12 @@ export async function generateMetadata({
   return {
     title: blog.title_en,
     description: blog.summary_en ?? blog.title_en,
-    alternates: { canonical: `/blogs/${slug}` },
+    alternates: { canonical: siteUrl(`/blogs/${slug}`) },
     openGraph: {
       type: "article",
       title: blog.title_en,
       description: blog.summary_en ?? "",
-      url: `/blogs/${slug}`,
+      url: siteUrl(`/blogs/${slug}`),
       publishedTime: blog.published_at ?? undefined,
       authors: [blog.author],
       ...(blog.featured_image
@@ -70,7 +70,7 @@ export default async function BlogPage({ params }: BlogPageProps) {
     publisher: {
       "@type": "Organization",
       name: "CCC Guru",
-      url: process.env.NEXT_PUBLIC_SITE_URL,
+      url: "https://www.cccguru.in",
     },
     ...(blog.featured_image ? { image: blog.featured_image } : {}),
   };
@@ -202,13 +202,58 @@ export default async function BlogPage({ params }: BlogPageProps) {
             </div>
           )}
 
+          {/* Quick Study Navigation */}
+          <div className="card p-5 space-y-3">
+            <h3 className="font-semibold text-sm text-text-primary">
+              CCC Exam Resources
+            </h3>
+            <ul className="space-y-2 text-xs">
+              <li>
+                <Link
+                  href="/tests"
+                  className="text-primary-600 hover:underline flex items-center justify-between"
+                >
+                  <span>CCC Online Test 2026</span>
+                  <span>→</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/ccc-syllabus"
+                  className="text-primary-600 hover:underline flex items-center justify-between"
+                >
+                  <span>NIELIT CCC Syllabus</span>
+                  <span>→</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/chapters"
+                  className="text-primary-600 hover:underline flex items-center justify-between"
+                >
+                  <span>Chapter-Wise Topics</span>
+                  <span>→</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/test-series/ccc-full-mock-test-series-2026"
+                  className="text-primary-600 hover:underline flex items-center justify-between"
+                >
+                  <span>100 Qs Full Mock Test</span>
+                  <span>→</span>
+                </Link>
+              </li>
+            </ul>
+          </div>
+
           {/* CTA */}
           <div className="card p-5 text-center">
             <p className="text-sm font-semibold text-text-primary mb-2">
               Ready to practice?
             </p>
             <p className="text-xs text-text-muted mb-4">
-              Take a free CCC mock test now
+              Take a free bilingual CCC mock test now
             </p>
             <Link
               href="/tests"

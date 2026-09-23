@@ -1,148 +1,125 @@
 import type { MetadataRoute } from "next";
-import { getAllBlogSlugs } from "@/lib/data/blogs";
-import { getAllBookIds } from "@/lib/data/books";
-import { getAllChapterIds } from "@/lib/data/chapters";
-import { getAllTestSeriesSlugs } from "@/lib/data/tests";
-import { getAllNoteIds } from "@/lib/data/notes";
+import { getBlogs } from "@/lib/data/blogs";
+import { getChapters, getChapterSlug } from "@/lib/data/chapters";
+import { getTestSeries, getTestSeriesItems, getTestItemSlug } from "@/lib/data/tests";
+import { siteUrl } from "@/lib/utils";
 
 export const revalidate = 3600;
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in";
-const siteUrl = rawSiteUrl
-  .replace(/cccprep\.in/gi, "cccguru.in")
-  .replace(/\/+$/, "");
+const BASE_URL = "https://www.cccguru.in";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const now = new Date();
+  // Safely fetch published data
+  const [blogs, chapters, testSeries] = await Promise.all([
+    getBlogs().catch(() => []),
+    getChapters().catch(() => []),
+    getTestSeries().catch(() => []),
+  ]);
 
-  // Safely fetch dynamic content with fallbacks so sitemap never fails
-  const [blogSlugs, bookIds, chapterIds, testSeriesSlugs, noteIds] =
-    await Promise.all([
-      getAllBlogSlugs().catch(() => []),
-      getAllBookIds().catch(() => []),
-      getAllChapterIds().catch(() => []),
-      getAllTestSeriesSlugs().catch(() => []),
-      getAllNoteIds().catch(() => []),
-    ]);
-
+  // Static pillar pages that contain real, indexable content
   const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: `${siteUrl}`,
-      lastModified: now,
+      url: `${BASE_URL}`,
       changeFrequency: "daily",
       priority: 1.0,
     },
     {
-      url: `${siteUrl}/tests`,
-      lastModified: now,
+      url: `${BASE_URL}/tests`,
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
-      url: `${siteUrl}/notes`,
-      lastModified: now,
+      url: `${BASE_URL}/ccc-syllabus`,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${BASE_URL}/chapters`,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/blogs`,
-      lastModified: now,
+      url: `${BASE_URL}/blogs`,
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
-      url: `${siteUrl}/books`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/chapters`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${siteUrl}/ccc-syllabus`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/download`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${siteUrl}/about`,
-      lastModified: now,
+      url: `${BASE_URL}/about`,
       changeFrequency: "monthly",
       priority: 0.4,
     },
     {
-      url: `${siteUrl}/contact`,
-      lastModified: now,
+      url: `${BASE_URL}/contact`,
       changeFrequency: "monthly",
-      priority: 0.3,
+      priority: 0.4,
     },
     {
-      url: `${siteUrl}/privacy`,
-      lastModified: now,
+      url: `${BASE_URL}/privacy`,
       changeFrequency: "yearly",
       priority: 0.2,
     },
     {
-      url: `${siteUrl}/terms`,
-      lastModified: now,
+      url: `${BASE_URL}/terms`,
       changeFrequency: "yearly",
       priority: 0.2,
     },
   ];
 
-  const testSeriesRoutes: MetadataRoute.Sitemap = (testSeriesSlugs || []).map(
-    (slug) => ({
-      url: `${siteUrl}/test-series/${encodeURIComponent(slug)}`,
-      lastModified: now,
+  // Published test series routes
+  const testSeriesRoutes: MetadataRoute.Sitemap = (testSeries || []).map(
+    (series) => ({
+      url: `${BASE_URL}/test-series/${encodeURIComponent(series.slug)}`,
+      lastModified: series.last_updated_at
+        ? new Date(series.last_updated_at)
+        : series.created_at
+          ? new Date(series.created_at)
+          : undefined,
       changeFrequency: "weekly",
       priority: 0.8,
     })
   );
 
-  const notesRoutes: MetadataRoute.Sitemap = (noteIds || []).map((id) => ({
-    url: `${siteUrl}/notes/${encodeURIComponent(id)}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
+  // Published test set instruction/landing routes
+  const testItemRoutesArrays = await Promise.all(
+    (testSeries || []).map(async (series) => {
+      const items = await getTestSeriesItems(series.id).catch(() => []);
+      return items.map((item) => ({
+        url: `${BASE_URL}/test-series/${encodeURIComponent(series.slug)}/${encodeURIComponent(getTestItemSlug(item))}`,
+        lastModified: item.created_at ? new Date(item.created_at) : undefined,
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      }));
+    })
+  );
+  const testItemRoutes = testItemRoutesArrays.flat();
 
-  const blogRoutes: MetadataRoute.Sitemap = (blogSlugs || []).map((slug) => ({
-    url: `${siteUrl}/blogs/${encodeURIComponent(slug)}`,
-    lastModified: now,
+  // Published chapter routes with semantic slugs
+  const chapterRoutes: MetadataRoute.Sitemap = (chapters || []).map(
+    (chapter) => ({
+      url: `${BASE_URL}/chapters/${encodeURIComponent(getChapterSlug(chapter))}`,
+      lastModified: chapter.created_at ? new Date(chapter.created_at) : undefined,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    })
+  );
+
+  // Published blog articles
+  const blogRoutes: MetadataRoute.Sitemap = (blogs || []).map((blog) => ({
+    url: `${BASE_URL}/blogs/${encodeURIComponent(blog.slug)}`,
+    lastModified: blog.published_at
+      ? new Date(blog.published_at)
+      : blog.created_at
+        ? new Date(blog.created_at)
+        : undefined,
     changeFrequency: "monthly",
     priority: 0.7,
-  }));
-
-  const bookRoutes: MetadataRoute.Sitemap = (bookIds || []).map((id) => ({
-    url: `${siteUrl}/books/${encodeURIComponent(id)}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.6,
-  }));
-
-  const chapterRoutes: MetadataRoute.Sitemap = (chapterIds || []).map((id) => ({
-    url: `${siteUrl}/chapters/${encodeURIComponent(id)}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.6,
   }));
 
   return [
     ...staticRoutes,
     ...testSeriesRoutes,
-    ...notesRoutes,
-    ...blogRoutes,
-    ...bookRoutes,
+    ...testItemRoutes,
     ...chapterRoutes,
+    ...blogRoutes,
   ];
 }

@@ -12,14 +12,14 @@ import { formatDate, readingTime } from "@/lib/utils";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "CCC Exam Blog — Tips, Guides & Latest Updates",
+  title: "CCC Exam Blog 2026 — Tips, Preparation Guides & Updates | CCC Guru",
   description:
-    "Expert articles, exam tips, study guides and latest CCC exam updates. Stay informed with CCC Guru blog.",
-  alternates: { canonical: "/blogs" },
+    "Expert articles, exam tips, LibreOffice study guides, and latest NIELIT CCC exam updates for 2026. Stay prepared with CCC Guru guides.",
+  alternates: { canonical: "https://www.cccguru.in/blogs" },
   openGraph: {
-    title: "CCC Exam Blog — Tips, Guides & Updates",
-    description: "Expert articles and latest CCC exam updates.",
-    url: "/blogs",
+    title: "CCC Exam Blog 2026 — Tips, Preparation Guides & Updates | CCC Guru",
+    description: "Expert articles, tips, and latest NIELIT CCC exam updates.",
+    url: "https://www.cccguru.in/blogs",
   },
 };
 

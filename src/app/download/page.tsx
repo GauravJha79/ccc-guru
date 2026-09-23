@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: 'Download CCC Guru App — Free for Android & iOS',
   description:
     'Download the CCC Guru mobile app for free. Practice CCC mock tests, read notes, and prepare for NIELIT CCC exam on the go.',
-  alternates: { canonical: '/download' },
+  alternates: { canonical: 'https://www.cccguru.in/download' },
 };
 
 export default function DownloadPage() {

@@ -16,26 +16,18 @@ import {
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SyllabusChaptersSection } from "@/components/syllabus/SyllabusChaptersSection";
 
+import { siteUrl } from "@/lib/utils";
+
 export const metadata: Metadata = {
-  title: "NIELIT CCC Revised Syllabus 2025-26 — Complete Chapter-wise Topics & PDF",
+  title: "NIELIT CCC Syllabus 2026 – Complete Chapter-wise Topics & PDF | CCC Guru",
   description:
-    "Download official NIELIT CCC revised syllabus (Revision 4). Explore complete 10 chapters covering LibreOffice Writer, Calc, Impress, Cyber Security, Future Skills, exam pattern, and grading system.",
-  keywords: [
-    "CCC syllabus",
-    "NIELIT CCC syllabus",
-    "CCC revised syllabus 2025",
-    "CCC syllabus PDF download",
-    "CCC exam pattern",
-    "LibreOffice CCC syllabus",
-    "CCC course duration",
-    "NIELIT CCC chapters",
-  ],
-  alternates: { canonical: "/ccc-syllabus" },
+    "Download official NIELIT CCC revised syllabus 2026 (Revision 4). Explore complete chapter-wise topics covering LibreOffice Writer, Calc, Impress, Cyber Security, exam pattern, and grading scale.",
+  alternates: { canonical: siteUrl("/ccc-syllabus") },
   openGraph: {
-    title: "NIELIT CCC Revised Syllabus 2025-26 — Complete Chapter-wise Topics & PDF",
+    title: "NIELIT CCC Syllabus 2026 – Complete Chapter-wise Topics & PDF | CCC Guru",
     description:
-      "Explore the latest 10-chapter NIELIT CCC revised syllabus with LibreOffice, Digital Financial Tools, Cyber Security, exam pattern, and PDF download.",
-    url: "/ccc-syllabus",
+      "Explore the official NIELIT CCC revised syllabus with LibreOffice, Digital Financial Tools, Cyber Security, exam pattern, and PDF download.",
+    url: siteUrl("/ccc-syllabus"),
   },
 };
 
@@ -51,9 +43,9 @@ const syllabusJsonLd = {
   provider: {
     "@type": "Organization",
     name: "NIELIT & CCC Guru",
-    url: "https://cccguru.in",
+    url: "https://www.cccguru.in",
   },
-  url: "https://cccguru.in/ccc-syllabus",
+  url: "https://www.cccguru.in/ccc-syllabus",
   hasCourseInstance: {
     "@type": "CourseInstance",
     courseMode: "Bilingual (Hindi & English)",
@@ -164,7 +156,7 @@ export default function CCCSyllabusPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-text-primary mb-4 leading-tight">
-            NIELIT CCC Syllabus 2025-26
+            NIELIT CCC Syllabus 2026
           </h1>
 
           <p className="text-text-secondary text-base sm:text-lg leading-relaxed mb-6">
@@ -361,8 +353,8 @@ export default function CCCSyllabusPage() {
             <Link href="/tests" className="btn-primary px-6 py-2.5">
               Start Free CCC Online Test
             </Link>
-            <Link href="/notes" className="btn-secondary px-6 py-2.5">
-              Download Chapter Notes
+            <Link href="/chapters" className="btn-secondary px-6 py-2.5">
+              Explore Chapters
             </Link>
             <a
               href={OFFICIAL_SYLLABUS_PDF_URL}

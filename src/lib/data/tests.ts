@@ -1,4 +1,5 @@
 import { getPublicClient } from "@/lib/supabase/public";
+import { toSlug } from "@/lib/utils";
 import type {
   TestCategory,
   TestSeries,
@@ -116,22 +117,68 @@ export async function getTestSeriesItems(
   return data ?? [];
 }
 
-export async function getTestSeriesItemById(
-  itemId: string,
+export function getTestItemSlug(item: TestSeriesItem): string {
+  return toSlug(item.title);
+}
+
+export async function getTestSeriesItemByIdOrSlug(
+  idOrSlug: string,
+  seriesId?: string,
 ): Promise<TestSeriesItem | null> {
   const supabase = getPublicClient();
-  const { data, error } = await supabase
+  const isUuid =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      idOrSlug
+    );
+
+  if (isUuid) {
+    let query = supabase
+      .from("test_series_items")
+      .select("*")
+      .eq("id", idOrSlug)
+      .eq("is_published", true);
+
+    if (seriesId) {
+      query = query.eq("series_id", seriesId);
+    }
+
+    const { data } = await query.maybeSingle();
+    if (data) return data as TestSeriesItem;
+  }
+
+  // Look up by slug across published items
+  let query = supabase
     .from("test_series_items")
     .select("*")
-    .eq("id", itemId)
-    .eq("is_published", true)
-    .single();
+    .eq("is_published", true);
 
-  if (error) {
-    console.error("getTestSeriesItemById:", error.message);
-    return null;
+  if (seriesId) {
+    query = query.eq("series_id", seriesId);
   }
-  return data;
+
+  const { data } = await query;
+  if (!data) return null;
+
+  const normalized = idOrSlug.toLowerCase().trim();
+  const match = (data as TestSeriesItem[]).find((item) => {
+    const slug = getTestItemSlug(item).toLowerCase();
+    const cleanIdOrSlug = normalized.replace(/^ccc-/, "");
+    return (
+      slug === normalized ||
+      slug === cleanIdOrSlug ||
+      toSlug(item.title).toLowerCase() === normalized ||
+      item.id === idOrSlug
+    );
+  });
+
+  return match ?? null;
+}
+
+export async function getTestSeriesItemById(
+  itemId: string,
+  seriesId?: string,
+): Promise<TestSeriesItem | null> {
+  return getTestSeriesItemByIdOrSlug(itemId, seriesId);
 }
 
 export async function getTestQuestions(

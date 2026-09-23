@@ -4,9 +4,15 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { ContactForm } from '@/components/ContactForm';
 
 export const metadata: Metadata = {
-  title: 'Contact CCC Guru',
-  description: "Get in touch with CCC Guru. We're here to help with your CCC exam preparation questions.",
-  alternates: { canonical: '/contact' },
+  title: 'Contact Us — CCC Guru Support & Inquiries',
+  description:
+    "Get in touch with CCC Guru. Have questions or feedback about NIELIT CCC exam preparation, mock tests, or study material? We are here to help.",
+  alternates: { canonical: 'https://www.cccguru.in/contact' },
+  openGraph: {
+    title: 'Contact Us — CCC Guru Support & Inquiries',
+    description: "Get in touch with CCC Guru for any inquiries or support.",
+    url: 'https://www.cccguru.in/contact',
+  },
 };
 
 export default function ContactPage() {

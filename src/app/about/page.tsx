@@ -3,9 +3,16 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 
 export const metadata: Metadata = {
-  title: 'About CCC Guru',
-  description: 'Learn about CCC Guru — India\'s trusted free platform for NIELIT CCC exam preparation.',
-  alternates: { canonical: '/about' },
+  title: 'About CCC Guru — Free NIELIT CCC Preparation Platform',
+  description:
+    'Learn about CCC Guru — India\'s trusted free educational platform for NIELIT CCC exam preparation, bilingual mock tests, syllabus, and study resources.',
+  alternates: { canonical: 'https://www.cccguru.in/about' },
+  openGraph: {
+    title: 'About CCC Guru — Free NIELIT CCC Preparation Platform',
+    description:
+      'Learn about CCC Guru — India\'s trusted free educational platform for NIELIT CCC exam preparation.',
+    url: 'https://www.cccguru.in/about',
+  },
 };
 
 export default function AboutPage() {

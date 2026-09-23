@@ -6,7 +6,7 @@ import { FileText, Download, ExternalLink, BookOpen, ArrowRight } from 'lucide-r
 import { getNoteById, getNotes, getAllNoteIds } from '@/lib/data/notes';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { formatFileSize } from '@/lib/utils';
+import { formatFileSize, siteUrl } from '@/lib/utils';
 
 export const revalidate = 3600;
 
@@ -29,11 +29,11 @@ export async function generateMetadata({ params }: NotePageProps): Promise<Metad
     description:
       note.description ??
       `Download ${note.title} — Free CCC study notes PDF with ${note.page_count} pages.`,
-    alternates: { canonical: `/notes/${id}` },
+    alternates: { canonical: siteUrl(`/notes/${id}`) },
     openGraph: {
       title: note.title,
       description: note.description ?? `Free CCC study notes PDF, ${note.page_count} pages.`,
-      url: `/notes/${id}`,
+      url: siteUrl(`/notes/${id}`),
       ...(note.thumbnail_url ? { images: [{ url: note.thumbnail_url }] } : {}),
     },
   };
@@ -62,9 +62,9 @@ export default async function NotePage({ params }: NotePageProps) {
     publisher: {
       '@type': 'Organization',
       name: 'CCC Guru',
-      url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in',
+      url: 'https://www.cccguru.in',
     },
-    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}/notes/${id}`,
+    url: siteUrl(`/notes/${id}`),
   };
 
   return (

@@ -5,10 +5,10 @@ import {
   Clock, FileQuestion, BarChart3, AlertTriangle,
   CheckCircle, ChevronLeft, Play
 } from 'lucide-react';
-import { getTestSeriesBySlug, getTestSeriesItemById } from '@/lib/data/tests';
+import { getTestSeriesBySlug, getTestSeriesItemById, getTestItemSlug } from '@/lib/data/tests';
 import { Badge } from '@/components/ui/Badge';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
-import { getDifficultyColor } from '@/lib/utils';
+import { getDifficultyColor, siteUrl } from '@/lib/utils';
 
 export const dynamicParams = true;
 export const revalidate = 60;
@@ -21,11 +21,12 @@ export async function generateMetadata({ params }: TestSetPageProps): Promise<Me
   const { slug, itemId } = await params;
   const item = await getTestSeriesItemById(itemId);
   if (!item) return { title: 'Test Not Found' };
+  const itemSlug = getTestItemSlug(item);
   return {
-    title: item.title,
-    description: `${item.question_count} questions · ${item.duration} minutes · ${item.difficulty}. Start your CCC practice test now.`,
-    alternates: { canonical: `/test-series/${slug}/${itemId}` },
-    robots: { index: false }, // Don't index individual test instruction pages
+    title: `${item.title} — CCC Practice Test 2026`,
+    description: `${item.question_count} questions · ${item.duration} minutes · ${item.difficulty}. Practice ${item.title} CCC mock test with instant evaluation.`,
+    alternates: { canonical: siteUrl(`/test-series/${slug}/${itemSlug}`) },
+    robots: { index: false }, // Instructional step before live exam
   };
 }
 

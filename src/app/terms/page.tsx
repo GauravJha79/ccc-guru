@@ -4,7 +4,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Terms of Service — CCC Guru',
   description: 'Terms of service for CCC Guru. Read our terms and conditions for using the platform.',
-  alternates: { canonical: '/terms' },
+  alternates: { canonical: 'https://www.cccguru.in/terms' },
 };
 
 export default function TermsPage() {
@@ -12,7 +12,7 @@ export default function TermsPage() {
     <div className="container-page py-8 max-w-3xl">
       <Breadcrumbs items={[{ label: 'Terms of Service' }]} />
       <h1 className="text-3xl font-bold text-text-primary mb-2">Terms of Service</h1>
-      <p className="text-sm text-text-muted mb-8">Last updated: August 2025</p>
+      <p className="text-sm text-text-muted mb-8">Last updated: 2026</p>
       <div className="prose-ccc space-y-5">
         <p>
           By using CCC Guru, you agree to these Terms of Service. Please read them carefully.

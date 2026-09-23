@@ -11,31 +11,16 @@ const inter = Inter({
   display: 'swap',
 });
 
-const siteUrl = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'
-)
-  .replace(/cccprep\.in/gi, 'cccguru.in')
-  .replace(/\/+$/, '');
+const siteUrl = 'https://www.cccguru.in';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'CCC Guru — NIELIT CCC Exam Preparation',
+    default: 'CCC Guru – NIELIT CCC Exam Preparation',
     template: '%s | CCC Guru',
   },
   description:
-    'Prepare for NIELIT CCC exam with free mock tests, bilingual study notes, expert blogs, and recommended books. India\'s trusted CCC preparation platform.',
-  keywords: [
-    'CCC online test',
-    'CCC online test in Hindi',
-    'CCC mock test',
-    'NIELIT CCC exam',
-    'CCC online test 2025',
-    'free CCC online test',
-    'CCC notes PDF',
-    'CCC preparation',
-    'CCC online test 100 questions',
-  ],
+    'Prepare for the NIELIT CCC exam with free online tests, mock tests, syllabus, chapter-wise questions and study resources in Hindi and English.',
   authors: [{ name: 'CCC Guru' }],
   creator: 'CCC Guru',
   publisher: 'CCC Guru',
@@ -55,17 +40,15 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: siteUrl,
     siteName: 'CCC Guru',
-    title: 'CCC Guru — NIELIT CCC Exam Preparation',
+    title: 'CCC Guru – NIELIT CCC Exam Preparation',
     description:
-      'Free mock tests, study notes, blogs, and books for NIELIT CCC exam. Start preparing today.',
+      'Prepare for the NIELIT CCC exam with free online tests, mock tests, syllabus, chapter-wise questions and study resources in Hindi and English.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CCC Guru — NIELIT CCC Exam Preparation',
-    description: 'Free mock tests, study notes, blogs, and books for NIELIT CCC exam.',
-  },
-  alternates: {
-    canonical: siteUrl,
+    title: 'CCC Guru – NIELIT CCC Exam Preparation',
+    description:
+      'Prepare for the NIELIT CCC exam with free online tests, mock tests, syllabus, chapter-wise questions and study resources in Hindi and English.',
   },
 };
 

@@ -11,9 +11,9 @@ import { SearchModal } from "./SearchModal";
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/tests", label: "Online Tests" },
-  { href: "/notes", label: "Notes" },
+  { href: "/ccc-syllabus", label: "Syllabus" },
+  { href: "/chapters", label: "Chapters" },
   { href: "/blogs", label: "Blogs" },
-  { href: "/books", label: "Books" },
 ];
 
 export function Navbar() {
@@ -90,12 +90,6 @@ export function Navbar() {
                   {label}
                 </Link>
               ))}
-              <Link
-                href="/ccc-syllabus"
-                className={`nav-link ${pathname === "/ccc-syllabus" ? "active" : ""}`}
-              >
-                Syllabus
-              </Link>
             </nav>
 
             {/* Spacer */}

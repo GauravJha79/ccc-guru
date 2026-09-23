@@ -6,11 +6,10 @@ import { useEffect } from 'react';
 
 const DRAWER_LINKS = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/tests', label: 'Tests', icon: FlaskConical },
-  { href: '/notes', label: 'Notes', icon: FileText },
-  { href: '/blogs', label: 'Blogs', icon: BookOpen },
-  { href: '/books', label: 'Books', icon: Library },
+  { href: '/tests', label: 'Online Tests', icon: FlaskConical },
   { href: '/ccc-syllabus', label: 'CCC Syllabus', icon: GraduationCap },
+  { href: '/chapters', label: 'Chapters', icon: BookOpen },
+  { href: '/blogs', label: 'Blogs', icon: FileText },
 ];
 
 const SECONDARY_LINKS = [

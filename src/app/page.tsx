@@ -38,15 +38,15 @@ import { formatDate, formatPrice } from "@/lib/utils";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "CCC Guru — Free NIELIT CCC Exam Preparation",
+  title: "CCC Guru – NIELIT CCC Exam Preparation, Mock Tests & Syllabus",
   description:
-    "Prepare for NIELIT CCC exam with free bilingual mock tests, study notes, expert blogs and recommended books. Trusted by thousands of CCC aspirants across India.",
-  alternates: { canonical: "/" },
+    "Free NIELIT CCC exam preparation with bilingual online tests, mock tests, syllabus, chapter-wise questions, notes and study resources in Hindi and English.",
+  alternates: { canonical: "https://www.cccguru.in/" },
   openGraph: {
-    title: "CCC Guru — Free NIELIT CCC Exam Preparation",
+    title: "CCC Guru – NIELIT CCC Exam Preparation, Mock Tests & Syllabus",
     description:
-      "Free bilingual mock tests, study notes, expert blogs and books for NIELIT CCC exam.",
-    url: "/",
+      "Free NIELIT CCC exam preparation with bilingual online tests, mock tests, syllabus, chapter-wise questions, notes and study resources in Hindi and English.",
+    url: "https://www.cccguru.in/",
   },
 };
 
@@ -55,7 +55,7 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "CCC Guru",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in",
+  url: "https://www.cccguru.in",
   description: "India's trusted NIELIT CCC exam preparation platform.",
   contactPoint: {
     "@type": "ContactPoint",
@@ -68,12 +68,12 @@ const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "CCC Guru",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in",
+  url: "https://www.cccguru.in",
   potentialAction: {
     "@type": "SearchAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in"}/search?q={search_term_string}`,
+      urlTemplate: "https://www.cccguru.in/search?q={search_term_string}",
     },
     "query-input": "required name=search_term_string",
   },
@@ -123,7 +123,7 @@ const FAQS = [
   },
   {
     q: "What is the passing marks for CCC?",
-    a: "Candidates need to score at least 50 marks out of 100 (50%) to pass the CCC exam. Grade A = 85+, Grade B = 75-84, Grade C = 65-74, Grade D = 55-64, Grade E (Pass) = 50-54.",
+    a: "Candidates need to score at least 50 marks out of 100 (50%) to qualify the CCC exam. Official NIELIT grading scale: Grade S (85% and above), Grade A (75%–84%), Grade B (65%–74%), Grade C (55%–64%), Grade D (50%–54% - Pass), and Grade F (Below 50% - Fail). There is no negative marking.",
   },
   {
     q: "Is CCC exam online or offline?",
@@ -190,15 +190,13 @@ export default async function HomePage() {
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight mb-5">
-              Crack CCC Exam with{" "}
-              <span className="gradient-text">Confidence</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight mb-5">
+              NIELIT CCC Exam Preparation –{" "}
+              <span className="gradient-text">Free Online Tests &amp; Study Resources</span>
             </h1>
 
             <p className="text-lg text-primary-200 mb-8 max-w-xl leading-relaxed">
-              Free bilingual mock tests, expert study notes, latest blogs and
-              recommended books — everything you need to ace the NIELIT CCC
-              exam.
+              Prepare for the NIELIT CCC exam with free bilingual mock tests, updated syllabus, chapter-wise practice, and study resources in Hindi and English.
             </p>
 
             <div className="flex flex-wrap gap-3">
@@ -207,11 +205,18 @@ export default async function HomePage() {
                 Start CCC Online Test
               </Link>
               <Link
-                href="/notes"
+                href="/ccc-syllabus"
                 className="btn-secondary2 text-base px-6 py-3 border-primary-600 text-primary-300 hover:bg-primary-900"
               >
-                <FileText className="w-5 h-5" />
-                Study Notes
+                <GraduationCap className="w-5 h-5" />
+                CCC Syllabus 2026
+              </Link>
+              <Link
+                href="/chapters"
+                className="btn-secondary2 text-base px-6 py-3 border-primary-600 text-primary-300 hover:bg-primary-900"
+              >
+                <BookOpen className="w-5 h-5" />
+                Chapters
               </Link>
             </div>
 
@@ -598,21 +603,7 @@ export default async function HomePage() {
             ))}
           </div>
 
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
-                "@context": "https://schema.org",
-                "@type": "FAQPage",
-                mainEntity: FAQS.map(({ q, a }) => ({
-                  "@type": "Question",
-                  name: q,
-                  acceptedAnswer: { "@type": "Answer", text: a },
-                })),
-              }),
-            }}
-          />
-        </div>
+          </div>
       </section>
 
       {/* ── App Download CTA ── */}

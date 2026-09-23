@@ -19,11 +19,11 @@ import {
   Sparkles,
   Play,
 } from "lucide-react";
-import { getTestSeriesBySlug, getTestSeriesItems } from "@/lib/data/tests";
+import { getTestSeriesBySlug, getTestSeriesItems, getTestItemSlug } from "@/lib/data/tests";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
-import { formatPrice, getDifficultyColor, getImageUrl } from "@/lib/utils";
+import { formatPrice, getDifficultyColor, getImageUrl, siteUrl } from "@/lib/utils";
 
 export const dynamicParams = true;
 export const revalidate = 60;
@@ -47,19 +47,11 @@ export async function generateMetadata({
   return {
     title,
     description,
-    keywords: [
-      series.title,
-      "CCC online test",
-      "CCC mock test",
-      "NIELIT CCC online test",
-      "CCC online practice test",
-      "CCC exam test series",
-    ],
-    alternates: { canonical: `/test-series/${series.slug}` },
+    alternates: { canonical: siteUrl(`/test-series/${series.slug}`) },
     openGraph: {
       title,
       description,
-      url: `/test-series/${series.slug}`,
+      url: siteUrl(`/test-series/${series.slug}`),
       images: series.featured_image
         ? [{ url: getImageUrl(series.featured_image) || series.featured_image }]
         : undefined,
@@ -90,9 +82,9 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
     provider: {
       "@type": "Organization",
       name: "CCC Guru",
-      url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in",
+      url: "https://www.cccguru.in",
     },
-    url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://cccguru.in"}/test-series/${series.slug}`,
+    url: siteUrl(`/test-series/${series.slug}`),
   };
 
   return (
@@ -196,7 +188,7 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
             {items.length > 0 && (
               <div className="flex flex-wrap items-center gap-4">
                 <Link
-                  href={`/test-series/${series.slug}/${items[0].id}`}
+                  href={`/test-series/${series.slug}/${getTestItemSlug(items[0])}`}
                   className="btn-primary text-sm sm:text-base px-6 py-3 shadow-lg shadow-primary-500/25 flex items-center gap-2"
                 >
                   <Play className="w-4 h-4 fill-current" />
@@ -271,7 +263,7 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
           {items.map((item, index) => (
             <Link
               key={item.id}
-              href={`/test-series/${series.slug}/${item.id}`}
+              href={`/test-series/${series.slug}/${getTestItemSlug(item)}`}
               className="group relative flex items-center gap-4 p-4 rounded-2xl bg-surface border border-border hover:border-primary-500/40 hover:shadow-card-hover transition-all duration-300"
             >
               {/* Number Badge */}

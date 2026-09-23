@@ -15,11 +15,15 @@ export const metadata: Metadata = {
   title: 'CCC Study Notes — Free PDF Notes for NIELIT CCC',
   description:
     'Download free CCC study notes in PDF. Chapter-wise, topic-wise bilingual notes for NIELIT CCC exam preparation. Easy to download and print.',
-  alternates: { canonical: '/notes' },
+  alternates: { canonical: 'https://www.cccguru.in/notes' },
+  robots: {
+    index: false,
+    follow: true,
+  },
   openGraph: {
     title: 'CCC Study Notes — Free PDF Notes',
     description: 'Free downloadable PDF notes for NIELIT CCC exam.',
-    url: '/notes',
+    url: 'https://www.cccguru.in/notes',
   },
 };
 

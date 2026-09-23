@@ -4,7 +4,7 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 export const metadata: Metadata = {
   title: 'Privacy Policy — CCC Guru',
   description: 'Privacy policy for CCC Guru. Learn how we collect, use, and protect your information.',
-  alternates: { canonical: '/privacy' },
+  alternates: { canonical: 'https://www.cccguru.in/privacy' },
 };
 
 export default function PrivacyPage() {
@@ -12,7 +12,7 @@ export default function PrivacyPage() {
     <div className="container-page py-8 max-w-3xl">
       <Breadcrumbs items={[{ label: 'Privacy Policy' }]} />
       <h1 className="text-3xl font-bold text-text-primary mb-2">Privacy Policy</h1>
-      <p className="text-sm text-text-muted mb-8">Last updated: August 2025</p>
+      <p className="text-sm text-text-muted mb-8">Last updated: 2026</p>
       <div className="prose-ccc space-y-5">
         <p>
           CCC Guru (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This policy

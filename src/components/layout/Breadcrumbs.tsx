@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ChevronRight, Home } from 'lucide-react';
+import { siteUrl } from '@/lib/utils';
 
 export interface BreadcrumbItem {
   label: string;
@@ -22,7 +23,7 @@ export function Breadcrumbs({ items }: BreadcrumbsProps) {
       name: item.label,
       ...(item.href
         ? {
-            item: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://cccguru.in'}${item.href}`,
+            item: siteUrl(item.href),
           }
         : {}),
     })),
