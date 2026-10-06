@@ -74,6 +74,7 @@ export interface Question {
   explanation_hi: string | null;
   difficulty: 'Easy' | 'Medium' | 'Hard';
   question_type: 'MCQ' | 'True/False';
+  option_type?: 'MCQ' | 'True/False' | string;
   source: string | null;
   is_active: boolean;
   created_at: string;

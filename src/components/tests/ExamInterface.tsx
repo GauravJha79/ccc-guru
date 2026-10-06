@@ -57,6 +57,42 @@ type Language = "en" | "hi" | "both";
 
 const STORAGE_KEY = "ccc-exam-language-preference";
 
+export function getAvailableOptionKeys(q: Question): readonly ("A" | "B" | "C" | "D")[] {
+  if (!q) return ["A", "B", "C", "D"] as const;
+
+  const typeStr = (
+    q.option_type ||
+    q.question_type ||
+    (q as any).questionType ||
+    (q as any).optionType ||
+    ""
+  )
+    .toString()
+    .trim()
+    .toLowerCase();
+
+  const isTrueFalse =
+    typeStr === "true/false" ||
+    typeStr === "true_false" ||
+    typeStr === "true-false" ||
+    typeStr === "tf" ||
+    typeStr.includes("true");
+
+  if (isTrueFalse) {
+    return ["A", "B"] as const;
+  }
+
+  // If option C and D are completely empty or missing, also treat as 2 options (A, B)
+  const hasOptC = Boolean(q.option_c_en?.trim() || q.option_c_hi?.trim());
+  const hasOptD = Boolean(q.option_d_en?.trim() || q.option_d_hi?.trim());
+
+  if (!hasOptC && !hasOptD) {
+    return ["A", "B"] as const;
+  }
+
+  return ["A", "B", "C", "D"] as const;
+}
+
 export function ExamInterface({
   item,
   questions,
@@ -785,7 +821,7 @@ export function ExamInterface({
 
               {/* Options List */}
               <div className="space-y-3 pt-2">
-                {(["A", "B", "C", "D"] as const).map((key) => {
+                {getAvailableOptionKeys(currentQuestion).map((key) => {
                   const opt = getOption(currentQuestion, key);
                   const isSelected = currentAnswer.selectedOption === key;
 
@@ -2287,7 +2323,7 @@ Practice free CCC mock tests & chapter tests:
 
                       {/* Options Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
-                        {(["A", "B", "C", "D"] as const).map((key) => {
+                        {getAvailableOptionKeys(q).map((key) => {
                           const optEn = {
                             A: q.option_a_en,
                             B: q.option_b_en,

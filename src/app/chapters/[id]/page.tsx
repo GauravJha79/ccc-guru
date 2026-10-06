@@ -22,7 +22,7 @@ import {
   getAllChapterSlugs,
   getChapterSlug,
 } from '@/lib/data/chapters';
-import { getTestSeries, getTestSeriesItems, getTestItemSlug } from '@/lib/data/tests';
+import { getChapterTestInfo } from '@/lib/data/tests';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { REVISED_SYLLABUS_DATA } from '@/lib/data/syllabus';
 import { siteUrl } from '@/lib/utils';
@@ -87,24 +87,11 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
     (s) => s.no === chapter.sort_order
   ) || REVISED_SYLLABUS_DATA[0];
 
-  // Fetch chapter-wise test items
-  const chapterSeries = allChapters.length > 0;
-  const [allSeries] = await Promise.all([
-    getTestSeries({ limit: 4 }),
-  ]);
-
-  const chapterTestSeries = allSeries.find((s) =>
-    s.slug.includes('chapter-wise')
-  );
-  let chapterTestItem = null;
-  if (chapterTestSeries) {
-    const items = await getTestSeriesItems(chapterTestSeries.id);
-    chapterTestItem = items.find(
-      (item) =>
-        item.title.toLowerCase().includes(chapter.title.toLowerCase().slice(0, 15)) ||
-        item.sort_order === chapter.sort_order
-    ) || items[0];
-  }
+  // Fetch chapter-wise test metadata
+  const chapterTestInfo = getChapterTestInfo(chapter.sort_order);
+  const chapterTestUrl = chapterTestInfo
+    ? chapterTestInfo.testUrl
+    : '/test-series/ccc-chapter-wise-test-series-2026';
 
   // Prev / Next chapters
   const currentIndex = allChapters.findIndex((c) => c.id === chapter.id);
@@ -174,13 +161,13 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
 
         {/* Quick CTA row */}
         <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border-subtle">
-          {chapterTestItem && chapterTestSeries && (
+          {chapterTestInfo && (
             <Link
-              href={`/test-series/${chapterTestSeries.slug}/${getTestItemSlug(chapterTestItem)}`}
+              href={chapterTestUrl}
               className="btn-primary text-sm px-5 py-2.5 flex items-center gap-2"
             >
               <FlaskConical className="w-4 h-4" />
-              Practice Chapter {chapter.sort_order} Online Test
+              Practice Chapter {chapter.sort_order} Online Test (100 Qs)
             </Link>
           )}
           <Link
@@ -257,12 +244,12 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
               Attempt objective MCQs in Hindi &amp; English with immediate score evaluation and answers.
             </p>
           </div>
-          {chapterTestItem && chapterTestSeries ? (
+          {chapterTestInfo ? (
             <Link
-              href={`/test-series/${chapterTestSeries.slug}/${getTestItemSlug(chapterTestItem)}`}
+              href={chapterTestUrl}
               className="btn-primary shrink-0 text-sm px-6 py-3"
             >
-              Start Chapter Test
+              Start Chapter {chapter.sort_order} Test
             </Link>
           ) : (
             <Link href="/tests" className="btn-primary shrink-0 text-sm px-6 py-3">

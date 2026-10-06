@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Languages, BookOpen, Clock, ArrowRight } from "lucide-react";
+import { Languages, BookOpen, Clock, ArrowRight, FlaskConical } from "lucide-react";
 import { REVISED_SYLLABUS_DATA, type SyllabusChapterData } from "@/lib/data/syllabus";
+import { getChapterTestInfo } from "@/lib/data/tests";
+import { CHAPTER_SLUGS } from "@/lib/utils";
 
 export type { SyllabusChapterData };
 export { REVISED_SYLLABUS_DATA };
@@ -139,19 +141,34 @@ export function SyllabusChaptersSection() {
                   </ul>
                 </div>
 
-                {/* Practice Link */}
-                <div className="mt-4 pt-3 border-t border-border/40 flex justify-end">
+                {/* Practice Link & Chapter Test Link */}
+                <div className="mt-4 pt-3 border-t border-border/40 flex flex-wrap items-center justify-between gap-2.5">
                   <Link
-                    href={`/chapters/chapter-${ch.no}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dark group-hover:translate-x-0.5 transition-all"
+                    href={`/chapters/${CHAPTER_SLUGS[ch.no] || `chapter-${ch.no}`}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-text-muted hover:text-text-primary transition-colors"
                   >
+                    <BookOpen className="w-3.5 h-3.5" />
                     <span>
                       {lang === "hi"
-                        ? `अध्याय ${ch.no} के प्रश्न और नोट्स देखें`
-                        : `Practice Chapter ${ch.no} Questions & Notes`}
+                        ? `अध्याय ${ch.no} स्टडी गाइड`
+                        : `Chapter ${ch.no} Study Guide`}
                     </span>
-                    <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
+
+                  {getChapterTestInfo(ch.no) && (
+                    <Link
+                      href={getChapterTestInfo(ch.no)!.testUrl}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:text-primary-dark group-hover:translate-x-0.5 transition-all"
+                    >
+                      <FlaskConical className="w-3.5 h-3.5" />
+                      <span>
+                        {lang === "hi"
+                          ? `अध्याय ${ch.no} का टेस्ट दें (100 प्रश्न)`
+                          : `Take Chapter ${ch.no} Test (100 Qs)`}
+                      </span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
