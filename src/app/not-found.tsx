@@ -13,13 +13,19 @@ export default function NotFound() {
         <p className="text-text-muted mb-8 max-w-sm">
           The page you're looking for doesn't exist or has been moved.
         </p>
-        <div className="flex flex-wrap justify-center gap-3">
+        <div className="flex flex-wrap justify-center gap-3 mb-6">
           <Link href="/" className="btn-primary">
             <Home className="w-4 h-4" />
-            Go Home
+            Home
           </Link>
           <Link href="/tests" className="btn-secondary">
-            Take a Mock Test
+            CCC Online Tests
+          </Link>
+          <Link href="/ccc-syllabus" className="btn-secondary">
+            CCC Syllabus
+          </Link>
+          <Link href="/chapters" className="btn-secondary">
+            CCC Chapters
           </Link>
         </div>
       </div>

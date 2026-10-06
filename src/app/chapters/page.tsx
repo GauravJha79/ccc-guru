@@ -24,8 +24,31 @@ export const metadata: Metadata = {
 export default async function ChaptersPage() {
   const chapters = await getChapters();
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.cccguru.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'CCC Chapters',
+        item: 'https://www.cccguru.in/chapters',
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Breadcrumbs items={[{ label: 'Chapters' }]} />
 
       <div className="mb-8">

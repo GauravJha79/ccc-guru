@@ -33,6 +33,25 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/test-series',
+        destination: '/tests',
+        permanent: true,
+      },
+      {
+        source: '/test-series/ccc-2026-ultimate-test-series-mock-tests',
+        destination: '/test-series/ccc-full-mock-test-series-2026',
+        permanent: true,
+      },
+      {
+        source: '/test-series/ccc-2026-ultimate-test-series-mock-tests/:path*',
+        destination: '/test-series/ccc-full-mock-test-series-2026/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

@@ -76,6 +76,38 @@ const TEST_FAQS = [
   },
 ];
 
+const testsFaqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: TEST_FAQS.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.a,
+    },
+  })),
+};
+
+const testsBreadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: 'https://www.cccguru.in',
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'CCC Online Tests',
+      item: 'https://www.cccguru.in/tests',
+    },
+  ],
+};
+
 interface TestsPageProps {
   searchParams: Promise<{ category?: string; q?: string }>;
 }
@@ -90,6 +122,14 @@ export default async function TestsPage({ searchParams }: TestsPageProps) {
 
   return (
     <div className="container-page py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(testsFaqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(testsBreadcrumbJsonLd) }}
+      />
       <Breadcrumbs items={[{ label: 'Tests' }]} />
 
       {/* ── Page Header ── */}
@@ -289,7 +329,7 @@ export default async function TestsPage({ searchParams }: TestsPageProps) {
                   CCC Full Mock Test
                 </h3>
                 <p className="text-xs sm:text-sm text-text-secondary leading-relaxed mb-3">
-                  Comprehensive 100-question mock tests covering all 9–10 modules of the official syllabus. Best for timed practice, exam stamina, and final revision before the actual exam day.
+                  Comprehensive 100-question mock tests covering all 10 modules of the official syllabus. Best for timed practice, exam stamina, and final revision before the actual exam day.
                 </p>
                 <Link
                   href="/test-series/ccc-full-mock-test-series-2026"

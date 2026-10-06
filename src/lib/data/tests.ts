@@ -74,10 +74,15 @@ export async function getTestSeriesBySlug(
   slug: string,
 ): Promise<TestSeriesWithCategory | null> {
   const supabase = getPublicClient();
+  const normalizedSlug =
+    slug === "ccc-2026-ultimate-test-series-mock-tests"
+      ? "ccc-full-mock-test-series-2026"
+      : slug;
+
   const { data, error } = await supabase
     .from("test_series")
     .select("*, test_categories(id, title)")
-    .eq("slug", slug)
+    .eq("slug", normalizedSlug)
     .maybeSingle();
 
   if (data) return data as TestSeriesWithCategory;

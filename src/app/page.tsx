@@ -38,15 +38,24 @@ import { formatDate, formatPrice } from "@/lib/utils";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "CCC Guru – NIELIT CCC Exam Preparation, Mock Tests & Syllabus",
+  title: "CCC Online Test 2026 – Free NIELIT Mock Tests in Hindi & English | CCC Guru",
   description:
-    "Free NIELIT CCC exam preparation with bilingual online tests, mock tests, syllabus, chapter-wise questions, notes and study resources in Hindi and English.",
+    "Prepare for the NIELIT CCC Exam 2026 with free online mock tests, chapter-wise practice, syllabus, important questions and study resources in Hindi and English.",
   alternates: { canonical: "https://www.cccguru.in/" },
   openGraph: {
-    title: "CCC Guru – NIELIT CCC Exam Preparation, Mock Tests & Syllabus",
+    title: "CCC Online Test 2026 – Free NIELIT Mock Tests in Hindi & English | CCC Guru",
     description:
-      "Free NIELIT CCC exam preparation with bilingual online tests, mock tests, syllabus, chapter-wise questions, notes and study resources in Hindi and English.",
+      "Prepare for the NIELIT CCC Exam 2026 with free online mock tests, chapter-wise practice, syllabus, important questions and study resources in Hindi and English.",
     url: "https://www.cccguru.in/",
+    siteName: "CCC Guru",
+    locale: "en_IN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CCC Online Test 2026 – Free NIELIT Mock Tests in Hindi & English | CCC Guru",
+    description:
+      "Prepare for the NIELIT CCC Exam 2026 with free online mock tests, chapter-wise practice, syllabus, important questions and study resources in Hindi and English.",
   },
 };
 
@@ -131,9 +140,22 @@ const FAQS = [
   },
   {
     q: "How to prepare for CCC exam?",
-    a: "Practice daily with mock tests, read chapter-wise notes, and focus on topics like MS Office, Internet, Operating Systems, and basic computer concepts. CCC Guru provides all these resources for free.",
+    a: "Practice daily with timed mock tests, read chapter-wise notes, and focus on high-weightage topics like LibreOffice (Writer, Calc, Impress), Internet & Web Browsing, Operating Systems, Digital Financial Tools, and Cyber Security. CCC Guru provides all these bilingual study resources for free.",
   },
 ];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.a,
+    },
+  })),
+};
 
 export default async function HomePage() {
   const [categories, featuredSeries, popularItems, notes, blogs, books] =
@@ -155,6 +177,10 @@ export default async function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
       {/* ── Hero ── */}
@@ -191,12 +217,12 @@ export default async function HomePage() {
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight tracking-tight mb-5">
-              NIELIT CCC Exam Preparation –{" "}
-              <span className="gradient-text">Free Online Tests &amp; Study Resources</span>
+              CCC Online Test 2026 –{" "}
+              <span className="gradient-text">Free NIELIT Mock Tests in Hindi &amp; English</span>
             </h1>
 
             <p className="text-lg text-primary-200 mb-8 max-w-xl leading-relaxed">
-              Prepare for the NIELIT CCC exam with free bilingual mock tests, updated syllabus, chapter-wise practice, and study resources in Hindi and English.
+              Prepare for the official NIELIT CCC Exam 2026 with free online mock tests, chapter-wise practice sets, syllabus topics, and exam preparation resources in Hindi and English.
             </p>
 
             <div className="flex flex-wrap gap-3">

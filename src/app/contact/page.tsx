@@ -16,8 +16,31 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.cccguru.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Contact Us',
+        item: 'https://www.cccguru.in/contact',
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8 max-w-2xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Breadcrumbs items={[{ label: 'Contact' }]} />
       <h1 className="text-3xl font-bold text-text-primary mb-4">Contact Us</h1>
       <p className="text-text-muted mb-8">

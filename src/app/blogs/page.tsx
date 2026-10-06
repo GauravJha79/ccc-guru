@@ -38,8 +38,31 @@ export default async function BlogsPage({ searchParams }: BlogsPageProps) {
   const featured = blogs.find((b) => b.is_featured);
   const rest = blogs.filter((b) => !b.is_featured || category);
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.cccguru.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://www.cccguru.in/blogs',
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Breadcrumbs items={[{ label: "Blogs" }]} />
 
       <div className="mb-8">

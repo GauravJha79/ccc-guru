@@ -42,7 +42,7 @@ const syllabusJsonLd = {
     "Official 10-chapter revised syllabus for NIELIT CCC Examination covering Computer Fundamentals, LibreOffice (Writer, Calc, Impress), Internet, Digital Financial Tools, Cyber Security, and Future Skills.",
   provider: {
     "@type": "Organization",
-    name: "NIELIT & CCC Guru",
+    name: "CCC Guru",
     url: "https://www.cccguru.in",
   },
   url: "https://www.cccguru.in/ccc-syllabus",
@@ -51,6 +51,57 @@ const syllabusJsonLd = {
     courseMode: "Bilingual (Hindi & English)",
     courseWorkload: "PT90H",
   },
+};
+
+const FAQS = [
+  {
+    q: "Has the NIELIT CCC Syllabus changed from MS Office to LibreOffice?",
+    a: "Yes. Under the revised syllabus (Revision 4), NIELIT exams exclusively feature LibreOffice (Writer, Calc, and Impress) alongside Ubuntu/Linux concepts rather than proprietary Microsoft Office tools.",
+  },
+  {
+    q: "Is there any negative marking in the CCC Exam?",
+    a: "No, there is no negative marking in the NIELIT CCC online exam. You get 1 mark for every correct answer, and 0 for incorrect or unattempted questions.",
+  },
+  {
+    q: "What is the total duration and question count of the CCC Exam?",
+    a: "The exam consists of 100 objective Multiple Choice (MCQ) & True/False questions to be solved in 90 minutes. The total course workload is 90 hours (30 hours theory + 60 hours practical).",
+  },
+  {
+    q: "What is the minimum passing score required in CCC?",
+    a: "Candidates must secure at least 50 marks out of 100 (50%) to achieve Grade D and earn the official NIELIT CCC Certificate.",
+  },
+];
+
+const syllabusFaqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: FAQS.map((faq) => ({
+    "@type": "Question",
+    name: faq.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.a,
+    },
+  })),
+};
+
+const syllabusBreadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://www.cccguru.in",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "CCC Syllabus",
+      item: "https://www.cccguru.in/ccc-syllabus",
+    },
+  ],
 };
 
 interface GradeInfo {
@@ -113,31 +164,21 @@ const GRADING_SYSTEM: GradeInfo[] = [
   },
 ];
 
-const FAQS = [
-  {
-    q: "Has the NIELIT CCC Syllabus changed from MS Office to LibreOffice?",
-    a: "Yes. Under the revised syllabus (Revision 4), NIELIT exams exclusively feature LibreOffice (Writer, Calc, and Impress) alongside Ubuntu/Linux concepts rather than proprietary Microsoft Office tools.",
-  },
-  {
-    q: "Is there any negative marking in the CCC Exam?",
-    a: "No, there is no negative marking in the NIELIT CCC online exam. You get 1 mark for every correct answer, and 0 for incorrect or unattempted questions.",
-  },
-  {
-    q: "What is the total duration and question count of the CCC Exam?",
-    a: "The exam consists of 100 objective Multiple Choice (MCQ) & True/False questions to be solved in 90 minutes. The total course workload is 90 hours (30 hours theory + 60 hours practical).",
-  },
-  {
-    q: "What is the minimum passing score required in CCC?",
-    a: "Candidates must secure at least 50 marks out of 100 (50%) to achieve Grade D and earn the official NIELIT CCC Certificate.",
-  },
-];
+export default function CccSyllabusPage() {
 
-export default function CCCSyllabusPage() {
   return (
     <div className="container-page py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(syllabusJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(syllabusFaqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(syllabusBreadcrumbJsonLd) }}
       />
 
       <Breadcrumbs items={[{ label: "CCC Syllabus" }]} />
@@ -183,18 +224,24 @@ export default function CCCSyllabusPage() {
           </div>
         </div>
 
-        {/* ── Exam Pattern & Structure Card ── */}
+        {/* ── CCC Syllabus at a Glance & Exam Pattern ── */}
         <div className="card-elevated rounded-2xl p-6 sm:p-8 mb-10 border border-border shadow-card">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-text-primary flex items-center gap-2">
-              <Award className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-              Exam Pattern & Course Overview
-            </h2>
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-text-primary flex items-center gap-2">
+                <Award className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                CCC Syllabus at a Glance (2026)
+              </h2>
+              <p className="text-xs sm:text-sm text-text-muted mt-1">
+                Official curriculum structure and examination parameters established by NIELIT.
+              </p>
+            </div>
             <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-surface-elevated border border-border text-text-muted">
               Computer Based Online Test (CBT)
             </span>
           </div>
 
+          {/* Quick Metrics */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-6">
             <div className="card p-3 sm:p-4 text-center bg-surface">
               <div className="text-xl sm:text-2xl font-black text-primary-600 dark:text-primary-400">100</div>
@@ -227,15 +274,40 @@ export default function CCCSyllabusPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-text-secondary border-t border-border-subtle pt-4">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span><strong>Question Types:</strong> Multiple Choice (MCQs) & True/False</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-              <span><strong>Office Suite:</strong> LibreOffice 7.x (Writer, Calc, Impress)</span>
-            </div>
+          {/* Structured Parameters Table */}
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-left text-xs sm:text-sm border-collapse">
+              <tbody className="divide-y divide-border-subtle text-text-secondary">
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30 w-1/3">Course Name</td>
+                  <td className="py-2.5 px-4 text-text-secondary">Course on Computer Concepts (CCC)</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Conducted By</td>
+                  <td className="py-2.5 px-4 text-text-secondary">National Institute of Electronics &amp; Information Technology (NIELIT)</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Syllabus Version</td>
+                  <td className="py-2.5 px-4 text-text-secondary">Revision 4 (Latest 2026 Examination Blueprint)</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Total Modules</td>
+                  <td className="py-2.5 px-4 text-text-secondary">10 Chapters / Modules (Covering Theory &amp; Practical)</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Office Suite Prescribed</td>
+                  <td className="py-2.5 px-4 text-text-secondary">LibreOffice (Writer, Calc, Impress) — No proprietary MS Office questions</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Exam Mode &amp; Format</td>
+                  <td className="py-2.5 px-4 text-text-secondary">Computer Based Online Test (CBT) • 100 Objective Questions (MCQs &amp; True/False)</td>
+                </tr>
+                <tr className="hover:bg-surface-elevated/40">
+                  <td className="py-2.5 px-4 font-semibold text-text-primary bg-surface-elevated/30">Duration &amp; Passing Marks</td>
+                  <td className="py-2.5 px-4 text-text-secondary">90 Minutes • Minimum 50% (50/100 Marks) for Grade D • Zero Negative Marking</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -258,27 +330,7 @@ export default function CCCSyllabusPage() {
             Candidates who score 50% or above are awarded the official NIELIT CCC Certificate with the following grade classification:
           </p>
 
-          {/* Visual Grade Badges Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
-            {GRADING_SYSTEM.map((g) => (
-              <div
-                key={g.grade}
-                className="card p-4 rounded-xl flex flex-col items-center text-center transition-all hover:-translate-y-1 hover:shadow-card-hover"
-              >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black mb-2 ${g.badgeBg}`}>
-                  {g.grade}
-                </div>
-                <div className="text-xs font-bold text-text-primary mb-1">
-                  {g.percentage}
-                </div>
-                <span className={`text-[11px] font-semibold px-2 py-0.5 rounded-full ${g.pillBg}`}>
-                  {g.remarks}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Detailed Table */}
+          {/* Unified Grading Table */}
           <div className="overflow-x-auto rounded-xl border border-border">
             <table className="w-full text-left text-sm border-collapse">
               <thead>

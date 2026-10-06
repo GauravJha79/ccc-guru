@@ -22,11 +22,37 @@ export async function generateMetadata({ params }: TestSetPageProps): Promise<Me
   const item = await getTestSeriesItemById(itemId);
   if (!item) return { title: 'Test Not Found' };
   const itemSlug = getTestItemSlug(item);
+  const canonicalUrl = siteUrl(`/test-series/${slug}/${itemSlug}`);
+  const title = `${item.title} — CCC Practice Mock Test 2026`;
+  const description = `Practice ${item.title} for NIELIT CCC exam 2026. ${item.question_count} questions, ${item.duration} mins time limit, instant results and detailed explanations.`;
+
   return {
-    title: `${item.title} — CCC Practice Test 2026`,
-    description: `${item.question_count} questions · ${item.duration} minutes · ${item.difficulty}. Practice ${item.title} CCC mock test with instant evaluation.`,
-    alternates: { canonical: siteUrl(`/test-series/${slug}/${itemSlug}`) },
-    robots: { index: false }, // Instructional step before live exam
+    title,
+    description,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      type: 'website',
+      siteName: 'CCC Guru',
+    },
+    twitter: {
+      card: 'summary',
+      title,
+      description,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   };
 }
 
@@ -52,9 +78,45 @@ export default async function TestSetPage({ params }: TestSetPageProps) {
   if (!item || !series) notFound();
 
   const seriesSlug = series.slug || slug;
+  const itemSlug = getTestItemSlug(item);
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'CCC Tests',
+        item: siteUrl('/tests'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: series.title,
+        item: siteUrl(`/test-series/${seriesSlug}`),
+      },
+      {
+        '@type': 'ListItem',
+        position: 4,
+        name: item.title,
+        item: siteUrl(`/test-series/${seriesSlug}/${itemSlug}`),
+      },
+    ],
+  };
 
   return (
     <div className="container-page py-8 max-w-3xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Breadcrumbs
         items={[
           { label: 'Tests', href: '/tests' },

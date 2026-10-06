@@ -8,8 +8,31 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.cccguru.in',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Terms of Service',
+        item: 'https://www.cccguru.in/terms',
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8 max-w-3xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Breadcrumbs items={[{ label: 'Terms of Service' }]} />
       <h1 className="text-3xl font-bold text-text-primary mb-2">Terms of Service</h1>
       <p className="text-sm text-text-muted mb-8">Last updated: 2026</p>

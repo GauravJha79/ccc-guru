@@ -75,11 +75,41 @@ export default async function BlogPage({ params }: BlogPageProps) {
     ...(blog.featured_image ? { image: blog.featured_image } : {}),
   };
 
+  // BreadcrumbList JSON-LD
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: siteUrl('/blogs'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: blog.title_en,
+        item: siteUrl(`/blogs/${slug}`),
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <Breadcrumbs

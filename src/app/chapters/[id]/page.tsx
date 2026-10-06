@@ -118,11 +118,40 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
     url: siteUrl(`/chapters/${canonicalSlug}`),
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'CCC Chapters',
+        item: siteUrl('/chapters'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: `Chapter ${chapter.sort_order}: ${chapter.title}`,
+        item: siteUrl(`/chapters/${canonicalSlug}`),
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8 max-w-4xl">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(chapterJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <Breadcrumbs
         items={[
@@ -136,7 +165,7 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
         <div className="flex flex-wrap items-center gap-2 mb-3">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 dark:bg-primary-950 text-primary-700 dark:text-primary-300 border border-primary-200/60 dark:border-primary-800/60">
             <Sparkles className="w-3.5 h-3.5" />
-            Chapter {chapter.sort_order} of 9 (Official CCC Syllabus)
+            Chapter {chapter.sort_order} of 10 (Official CCC Syllabus)
           </span>
           <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-surface-elevated border border-border text-text-muted">
             {syllabusData.theoryHours}h Theory + {syllabusData.practicalHours}h Practical

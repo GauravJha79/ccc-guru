@@ -87,11 +87,40 @@ export default async function TestSeriesPage({ params }: TestSeriesPageProps) {
     url: siteUrl(`/test-series/${series.slug}`),
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteUrl(),
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'CCC Tests',
+        item: siteUrl('/tests'),
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: series.title,
+        item: siteUrl(`/test-series/${series.slug}`),
+      },
+    ],
+  };
+
   return (
     <div className="container-page py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(testSeriesJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <Breadcrumbs
         items={[{ label: "Tests", href: "/tests" }, { label: series.title }]}
